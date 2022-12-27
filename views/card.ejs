@@ -5,6 +5,26 @@
     <title>Title</title>
 </head>
 <body>
+<nav>
 
+</nav>
+
+<div class="content">
+    <div class="card-items">
+        <% for (var i = 0; i < items.length; i++) { %>
+            <% let item = items[i] %>
+            <img src="<%= item.img[0] %>" height="100px" width="100px" style="float: left">
+            <div style="float: left"><%= item.name %></div><br>
+            <div style="float:left"><%= item.desc %></div><br>
+            <div style="float: left"><%= item.price %></div>
+            <div style="clear: both; margin-bottom: 10px"></div>
+        <% } %>
+    </div>
+    <form method="post">
+        <input type="submit" value="Checkout">
+    </form>
+</div>
+
+<footer></footer>
 </body>
 </html>

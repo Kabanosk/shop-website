@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title><%= name %></title>
 </head>
 <body>
+<nav>
 
+</nav>
+
+<div class="content">
+    <div class="name"><%= name %></div>
+    <div class="price"><%= price %></div>
+    <form method="post" action="/item">
+        <input type="submit" value="Add to card">
+    </form>
+    <!-- TODO: carusel na zdjeciach przekazanych -->
+
+</div>
+
+<footer>
+
+</footer>
 </body>
 </html>
