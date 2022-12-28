@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= name %></title>
+    <title><%= item.name %></title>
+    <link rel="stylesheet" href="item.css">
 </head>
 <body>
 <nav>
@@ -10,13 +11,17 @@
 </nav>
 
 <div class="content">
-    <div class="name"><%= name %></div>
-    <div class="price"><%= price %></div>
-    <form method="post" action="/item">
-        <input type="submit" value="Add to card">
-    </form>
-    <!-- TODO: carusel na zdjeciach przekazanych -->
 
+    <div class="image">
+        <img src="<%= item.img[0] %>" height="100px" width="100px">
+    </div>
+    <div class="information">
+        <div class="name"><%= item.name %></div>
+        <div class="price"><%= item.price %></div>
+        <form method="post" action="/card/add">
+            <input type="submit" value="Add to card">
+        </form>
+    </div>
 </div>
 
 <footer>

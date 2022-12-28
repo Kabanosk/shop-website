@@ -6,19 +6,28 @@
 </head>
 <body>
 <nav>
-
+    <form action="/" method="post">
+        <input type="submit" value="Profile" name="profile">
+    </form>
 </nav>
 
-<form method="post" class="searchbar">
+<form action="/" method="post">
     <label>
         Search:
-        <input type="text">
+        <input type="text" name="searchbar">
     </label>
     <input type="submit" value="Search">
 </form>
 
 <div class="items">
-
+    <% for (var i = 0; i < items.length; i++) { %>
+        <% let item = items[i] %>
+        <div class="item" style="float: left; margin: 20px">
+            <img src="<%= item.img[0] %>" height="200px" width="200px">
+            <div class="name"><%= item.name %></div>
+            <div class="price"><%= item.price %></div>
+        </div>
+    <% } %>
 </div>
 
 <footer>
