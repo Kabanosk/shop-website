@@ -5,6 +5,8 @@ const process = require("process");
 const path = require("path");
 const bodyParser = require("body-parser");
 
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -128,5 +130,42 @@ app.post("/card/add", (req, res) => {
     //  - after successful login add item to card
 });
 
+
+// testy
+
+async function main(){
+
+const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+try {
+    // Connect to the MongoDB cluster
+    await client.connect();
+
+    const collection = client.db("primary").collection("users");
+
+    console.log(collection)
+     
+    await collection.insertMany(
+        [
+        { _id: 20, item: "lamp", qty: 50, type: "desk" },
+        { _id: 21, item: "lamp", qty: 20, type: "floor" },
+        { _id: 22, item: "bulk", qty: 100 }
+        ]
+    ); 
+    console.log("POG?")
+
+} catch (e) {
+    console.error(e);
+} finally {
+    await client.close();
+}
+}
+
+main().catch(console.error);
+
+
 app.listen(3000);
 console.log("started");
+
+
