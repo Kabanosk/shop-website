@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= action %>User</title>
+</head>
+<body>
+    <form method="post" action="/admin/user/<%= action %>">
+        <label>
+            Name: <input type="text" name="name" value="<%= (typeof user === undefined) ? user.name : ''%>">
+        </label>
+        <label>
+            Surname: <input type="text" name="surname" value="<%= (typeof user === undefined) ? user.surname : ''%>">
+        </label>
+        <label>
+            Email: <input type="text" name="email" value="<%= (typeof user === undefined) ? user.email : ''%>">
+        </label>
+        <label>
+            Password: <input type="password" name="password" value="<%= (typeof user === undefined) ? user.password : ''%>">
+        </label>
+        <input type="submit" value="Accept">
+    </form>
+</body>
+</html>

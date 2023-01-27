@@ -87,7 +87,33 @@ app.post("/admin", (req, res) => {
 });
 
 app.get("/admin/users", (req, res) => {
-    res.render("admin/users", {users: []}); // TODO: add users from database
+    res.render("admin/users", {users: [user]}); // TODO: add users from database
+});
+
+app.get("/admin/user/add", (req, res) => {
+    res.render("admin/user", {action: "add"});
+});
+
+app.post("/admin/user/add", (req, res) => {
+    const new_user = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/user", {user: new_user, action: "add"});
+});
+
+app.put("/admin/user/update", (req, res) => {
+    const updated_user = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/user", {user: updated_user, action: "add"});
 });
 
 app.get("/admin/users/:phrase", (req, res) => {
@@ -99,14 +125,68 @@ app.get("/admin/items", (req, res) => {
     res.render("admin/users", {users: []}); // TODO: add users from database
 });
 
+app.get("/admin/item/add", (req, res) => {
+    res.render("admin/item", {action: "add"});
+});
+
+app.post("/admin/item/add", (req, res) => {
+    const new_item = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/item", {item: new_item, action: "add"});
+});
+
+app.put("/admin/item/update", (req, res) => {
+    const updated_item = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/item", {item: updated_item, action: "add"});
+});
+
 app.get("/admin/items/:phrase", (req, res) => {
     let filteredItems = []; // TODO: filter items from db
     res.render("admin/user", {items: filteredItems});
 });
 
+
 app.get("/admin/orders", (req, res) => {
     res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
+
+app.get("/admin/order/add", (req, res) => {
+    res.render("admin/order", {action: "add"});
+});
+
+app.post("/admin/order/add", (req, res) => {
+    const new_order = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/order", {item: new_order, action: "add"});
+});
+
+app.put("/admin/order/update", (req, res) => {
+    const updated_order = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/item", {item: updated_order, action: "add"});
+});
+
 
 app.get("/admin/orders/:phrase", (req, res) => {
     let filteredOrders = []; // TODO: filter orders from db
