@@ -75,7 +75,7 @@ app.get("/", async (req, res) => {
     const items = await Item.find();
     res.render("index", {items: items});
 });
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
 
    if (req.body.profile) {
        if (req.session.user) {
@@ -92,6 +92,10 @@ app.post("/", (req, res) => {
    if (req.body.searchbar) {
        let searchPhrase = req.body.searchbar;
        res.redirect("/search/" + searchPhrase);
+   } else 
+   {
+    const items = await Item.find();
+    res.render("index", {items: items});
    }
 });
 app.get("/search/:phrase", async (req, res) => {
