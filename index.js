@@ -12,6 +12,7 @@ const app = express();
 
 /* routers */
 const items = require('./routes/item.routes')
+const users = require('./routes/user.routes')
 
 
 
@@ -19,10 +20,8 @@ main().catch(err => console.log(err));
 
 async function main() {
 
-    const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/?retryWrites=true&w=majority";
+    const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/primary?retryWrites=true&w=majority";
     await mongoose.connect(uri);
-
-
 }
 
 
@@ -47,6 +46,7 @@ app.use(cookieParser());
 
 
 app.use("/", items);
+app.use("/", users);
 
 
 app.get("/", async (req, res) => {
@@ -84,56 +84,6 @@ app.get("/search/:phrase", async (req, res) => {
     console.log(filteredItems);
     res.render("index", { items: filteredItems});
     
-});
-
-app.get("/profile", (req, res) => {
-    let user = req.session.user;
-    if (!user) {
-        res.redirect("login");
-    }
-    res.render("profile", {
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        surname: user.surname
-    });
-});
-
-app.get("/login", (req, res) => {
-    res.render("login");
-});
-
-app.post("/login", (req, res) => {
-    // TODO: authentication and add to session
-    if (req.body["register"]) {
-        console.log("chuj");
-        res.redirect("register");
-        return;
-    }
-    console.log(req.body)
-    let email = req.body.email,
-        password = req.body.password;
-    req.session.user = {email: email, password: password, card: items};
-    res.redirect("/");
-});
-
-app.get("/register", (req, res) => {
-    res.render("register");
-});
-app.post("/register", (req, res) => {
-    // TODO: authentication, adding user and add to session
-    let email = req.body.email,
-        password = req.body.password,
-        name = req.body.name,
-        surname = req.body.surname;
-    req.session.user = {
-        email: email,
-        password: password,
-        name: name,
-        surname: surname,
-        card: items
-    };
-    res.redirect("/");
 });
 
 app.get("/card", (req, res) => {

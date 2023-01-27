@@ -12,4 +12,4 @@ const userSchema = new Schema({
     price: Number
   });
 
-module.exports = Item = mongoose.model("item", itemSchema);
+module.exports = User = mongoose.model("user", userSchema);
