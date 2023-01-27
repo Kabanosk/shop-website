@@ -10,7 +10,7 @@
 </nav>
 
 <div class="content">
-    <div class="card-items">
+    <div class="cart-items">
         <% for (var i = 0; i < items.length; i++) { %>
             <% let item = items[i] %>
             <img src="<%= item.img[0] %>" height="100px" width="100px" style="float: left">
@@ -20,7 +20,7 @@
             <div style="clear: both; margin-bottom: 10px"></div>
         <% } %>
     </div>
-    <form action="/card/checkout" method="post">
+    <form action="/cart/checkout" method="post">
         <input type="submit" value="Checkout">
     </form>
 </div>
