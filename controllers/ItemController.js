@@ -12,9 +12,9 @@ module.exports = class ItemController{
             res.render("add", {
                 items: items
             });
-          } catch (error) {
-             res.status(500).json({error: error})
-          }
+        } catch (error) {
+            res.status(500).json({error: error})
+        }
     }
 
     static async getItemById(req, res, next){
@@ -28,9 +28,9 @@ module.exports = class ItemController{
                res.status(404).json("No items in the database.")
             }
             res.json(items);
-          } catch (error) {
-             res.status(500).json({error: error})
-          }
+        } catch (error) {
+            res.status(500).json({error: error})
+        }
     }
 
     static async addItem(req, res, next){
@@ -45,8 +45,8 @@ module.exports = class ItemController{
                 req.body.price
             );
             res.redirect('/add');
-         } catch (error) {
+        } catch (error) {
             res.status(500).json({error: error});
-         }
+        }
     }
 }
