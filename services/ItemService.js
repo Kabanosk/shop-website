@@ -46,5 +46,15 @@ module.exports = class ItemService{
         }
     }
 
+    static async getItemsByPhrase(phrase){
+        try {
+            const items = await Item.find({name : phrase});
+            return items;
+        } catch (error) {
+            console.log(`Could not fetch items ${error}`)
+            throw error
+        }
+    }
+
     //Later on will add update and delete options
 }

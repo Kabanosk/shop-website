@@ -10,22 +10,20 @@ const fs = require('fs');
 
 const app = express();
 
-/* routers */
+/* Implement routes */
 const items = require('./routes/item.routes')
 const users = require('./routes/user.routes')
+const mainpage = require('./routes/main.routes')
 
-
-
+/* Connect to database routes */
 main().catch(err => console.log(err));
 
 async function main() {
-
     const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/primary?retryWrites=true&w=majority";
     await mongoose.connect(uri);
 }
 
-
-
+/* Setup app settings */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -44,47 +42,10 @@ app.use(session({
 }));
 app.use(cookieParser());
 
-
+/* Add routes */
 app.use("/", items);
 app.use("/", users);
-
-
-app.get("/", async (req, res) => {
-    console.log(req.session);
-    const items = await Item.find();
-    res.render("index", {items: items});
-});
-app.post("/", async (req, res) => {
-
-   if (req.body.profile) {
-       if (req.session.user) {
-           res.redirect("profile");
-       } else {
-           res.redirect("login");
-       }
-   }
-   if (req.body.add)
-   {
-    res.redirect("add");
-   }
-   if (req.body.searchbar) {
-       let searchPhrase = req.body.searchbar;
-       res.redirect("/search/" + searchPhrase);
-   } else 
-   {
-    const items = await Item.find();
-    res.render("index", {items: items});
-   }
-});
-app.get("/search/:phrase", async (req, res) => {
-    let phrase = req.params.phrase;
-
-    let filteredItems = await Item.find({name : phrase});
-    
-    console.log(filteredItems);
-    res.render("index", { items: filteredItems});
-    
-});
+app.use("/", mainpage);
 
 app.get("/card", (req, res) => {
     let user = req.session.user;
@@ -104,6 +65,7 @@ app.post("/card/add", (req, res) => {
     //  - after successful login add item to card
 });
 
+/* Host app */
 let PORT = 3000
 app.listen(PORT);
 console.log(`started at https://localhost:${PORT}/`);
