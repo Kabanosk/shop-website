@@ -61,11 +61,7 @@ app.use(session({
 app.use(cookieParser());
 
 
-app.get("/admin", async (req, res) => {
-    res.redirect("/admin/user");
-});
-
-app.get("/admin/users", (req, res) => {
+function admin_redirects(req, res) {
     if (req.body.searchbar) {
         let searchPhrase = req.body.searchbar;
         res.redirect("/admin/users/" + searchPhrase);
@@ -79,7 +75,45 @@ app.get("/admin/users", (req, res) => {
     if (req.body.orders) {
         res.redirect("/admin/orders");
     }
-    res.render("admin/user", {users: []}); // TODO: add users from database
+}
+
+app.get("/admin", async (req, res) => {
+    res.redirect("/admin/users");
+});
+
+app.post("/admin", (req, res) => {
+    admin_redirects(req, res);
+    res.render("admin/users", {users: []}); // TODO: add users from database
+});
+
+app.get("/admin/users", (req, res) => {
+    res.render("admin/users", {users: [user]}); // TODO: add users from database
+});
+
+app.get("/admin/user/add", (req, res) => {
+    res.render("admin/user", {action: "add"});
+});
+
+app.post("/admin/user/add", (req, res) => {
+    const new_user = { // TODO: add id and add it to database
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/user", {user: new_user, action: "add"});
+});
+
+app.put("/admin/user/update", (req, res) => {
+    const updated_user = { // TODO: add id and update it in database
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/user", {user: updated_user, action: "add"});
 });
 
 app.get("/admin/users/:phrase", (req, res) => {
@@ -88,20 +122,33 @@ app.get("/admin/users/:phrase", (req, res) => {
 });
 
 app.get("/admin/items", (req, res) => {
-    if (req.body.searchbar) {
-        let searchPhrase = req.body.searchbar;
-        res.redirect("/admin/items/" + searchPhrase);
-    }
-    if (req.body.users) {
-        res.redirect("/admin/users");
-    }
-    if (req.body.items) {
-        res.redirect("/admin/items");
-    }
-    if (req.body.orders) {
-        res.redirect("/admin/orders");
-    }
-    res.render("admin/items", {items: []}); // TODO: add items from database
+    res.render("admin/users", {users: []}); // TODO: add users from database
+});
+
+app.get("/admin/item/add", (req, res) => {
+    res.render("admin/item", {action: "add"});
+});
+
+app.post("/admin/item/add", (req, res) => {
+    const new_item = { // TODO: add id and add it to database
+        name: req.body.name,
+        desc: req.body.desc,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        img: req.body.image
+    };
+    res.render("admin/item", {item: new_item, action: "add"});
+});
+
+app.put("/admin/item/update", (req, res) => {
+    const updated_item = { // TODO: add id and update it in database
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        img: req.body.image
+    };
+    res.render("admin/item", {item: updated_item, action: "update"});
 });
 
 app.get("/admin/items/:phrase", (req, res) => {
@@ -109,22 +156,27 @@ app.get("/admin/items/:phrase", (req, res) => {
     res.render("admin/user", {items: filteredItems});
 });
 
+
 app.get("/admin/orders", (req, res) => {
-    if (req.body.searchbar) {
-        let searchPhrase = req.body.searchbar;
-        res.redirect("/admin/orders/" + searchPhrase);
-    }
-    if (req.body.users) {
-        res.redirect("/admin/users");
-    }
-    if (req.body.items) {
-        res.redirect("/admin/items");
-    }
-    if (req.body.orders) {
-        res.redirect("/admin/orders");
-    }
     res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
+
+app.get("/admin/order/add", (req, res) => {
+    res.render("admin/order", {action: "add"});
+});
+
+app.post("/admin/order/add", (req, res) => {
+    const new_order = { // TODO: add id and add it to database
+    };
+    res.render("admin/order", {item: new_order, action: "add"});
+});
+
+app.put("/admin/order/update", (req, res) => {
+    const updated_order = { // TODO: add id and update it in database
+    };
+    res.render("admin/item", {item: updated_order, action: "update"});
+});
+
 
 app.get("/admin/orders/:phrase", (req, res) => {
     let filteredOrders = []; // TODO: filter orders from db
