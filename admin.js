@@ -61,11 +61,7 @@ app.use(session({
 app.use(cookieParser());
 
 
-app.get("/admin", async (req, res) => {
-    res.redirect("/admin/user");
-});
-
-app.get("/admin/users", (req, res) => {
+function admin_redirects(req, res) {
     if (req.body.searchbar) {
         let searchPhrase = req.body.searchbar;
         res.redirect("/admin/users/" + searchPhrase);
@@ -79,7 +75,14 @@ app.get("/admin/users", (req, res) => {
     if (req.body.orders) {
         res.redirect("/admin/orders");
     }
-    res.render("admin/user", {users: []}); // TODO: add users from database
+}
+
+app.get("/admin", async (req, res) => {
+    res.redirect("/admin/users");
+});
+
+app.get("/admin/users", (req, res) => {
+    res.render("admin/users", {users: []}); // TODO: add users from database
 });
 
 app.get("/admin/users/:phrase", (req, res) => {
@@ -87,21 +90,13 @@ app.get("/admin/users/:phrase", (req, res) => {
     res.render("admin/users", {users: filteredUsers});
 });
 
+app.post("/admin/users", (req, res) => {
+
+    res.render("admin/users", {users: []}); // TODO: add users from database
+});
+
 app.get("/admin/items", (req, res) => {
-    if (req.body.searchbar) {
-        let searchPhrase = req.body.searchbar;
-        res.redirect("/admin/items/" + searchPhrase);
-    }
-    if (req.body.users) {
-        res.redirect("/admin/users");
-    }
-    if (req.body.items) {
-        res.redirect("/admin/items");
-    }
-    if (req.body.orders) {
-        res.redirect("/admin/orders");
-    }
-    res.render("admin/items", {items: []}); // TODO: add items from database
+    res.render("admin/users", {users: []}); // TODO: add users from database
 });
 
 app.get("/admin/items/:phrase", (req, res) => {
@@ -109,26 +104,23 @@ app.get("/admin/items/:phrase", (req, res) => {
     res.render("admin/user", {items: filteredItems});
 });
 
+app.post("/admin/items", (req, res) => {
+    admin_redirects(req, res);
+    res.render("admin/items", {items: []}); // TODO: add items from database
+});
+
 app.get("/admin/orders", (req, res) => {
-    if (req.body.searchbar) {
-        let searchPhrase = req.body.searchbar;
-        res.redirect("/admin/orders/" + searchPhrase);
-    }
-    if (req.body.users) {
-        res.redirect("/admin/users");
-    }
-    if (req.body.items) {
-        res.redirect("/admin/items");
-    }
-    if (req.body.orders) {
-        res.redirect("/admin/orders");
-    }
     res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
 
 app.get("/admin/orders/:phrase", (req, res) => {
     let filteredOrders = []; // TODO: filter orders from db
     res.render("admin/user", {orders: filteredOrders});
+});
+
+app.post("/admin/orders", (req, res) => {
+    admin_redirects(req, res);
+    res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
 
 let PORT = 3000
