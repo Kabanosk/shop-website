@@ -81,6 +81,11 @@ app.get("/admin", async (req, res) => {
     res.redirect("/admin/users");
 });
 
+app.post("/admin", (req, res) => {
+    admin_redirects(req, res);
+    res.render("admin/users", {users: []}); // TODO: add users from database
+});
+
 app.get("/admin/users", (req, res) => {
     res.render("admin/users", {users: []}); // TODO: add users from database
 });
@@ -88,11 +93,6 @@ app.get("/admin/users", (req, res) => {
 app.get("/admin/users/:phrase", (req, res) => {
     let filteredUsers = []; // TODO: filter users from db
     res.render("admin/users", {users: filteredUsers});
-});
-
-app.post("/admin/users", (req, res) => {
-
-    res.render("admin/users", {users: []}); // TODO: add users from database
 });
 
 app.get("/admin/items", (req, res) => {
@@ -104,11 +104,6 @@ app.get("/admin/items/:phrase", (req, res) => {
     res.render("admin/user", {items: filteredItems});
 });
 
-app.post("/admin/items", (req, res) => {
-    admin_redirects(req, res);
-    res.render("admin/items", {items: []}); // TODO: add items from database
-});
-
 app.get("/admin/orders", (req, res) => {
     res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
@@ -116,11 +111,6 @@ app.get("/admin/orders", (req, res) => {
 app.get("/admin/orders/:phrase", (req, res) => {
     let filteredOrders = []; // TODO: filter orders from db
     res.render("admin/user", {orders: filteredOrders});
-});
-
-app.post("/admin/orders", (req, res) => {
-    admin_redirects(req, res);
-    res.render("admin/orders", {orders: []}); // TODO: add orders from database
 });
 
 let PORT = 3000
