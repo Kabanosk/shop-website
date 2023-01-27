@@ -20,7 +20,6 @@ module.exports = class ItemService{
                 img: image,
                 price: price
             }
-            console.log("Creating");
             Item.create(obj, (err, item) => {
                 if (err) {
                     throw err;
@@ -29,7 +28,6 @@ module.exports = class ItemService{
                     item.save();
                 }
             });
-            console.log("Created");
         } catch (error) {
             console.log(`Could not add item ${error}`)
             throw error
