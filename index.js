@@ -209,9 +209,8 @@ app.post("/card/add", (req, res) => {
     //  - after successful login add item to card
 });
 
-
-
-app.listen(3000);
-console.log("started");
+let PORT = 3000
+app.listen(PORT);
+console.log(`started at https://localhost:${PORT}/`);
 
 

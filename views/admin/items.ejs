@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Items</title>
+</head>
+<body>
+<nav>
+    <form action="/admin" method="post">
+        <input type="submit" value="USERS" name="users">
+    </form>
+    <form action="/admin" method="post">
+        <input type="submit" value="ITEMS" name="items">
+    </form>
+    <form action="/admin" method="post">
+        <input type="submit" value="ORDERS" name="orders">
+    </form>
+</nav>
+
+<div class="searchBar">
+    <form action="/admin" method="post">
+        <label>
+            Search:
+            <input type="text" name="searchbar">
+        </label>
+        <input type="submit" value="Search">
+    </form>
+</div>
+<div class="content">
+    <% items.forEach((item) => { %>
+        <div class="user">
+            <div class="id"><% item.id %></div>
+            <div class="name"><%= item.name %></div>
+            <div class="amount"><%= item.amount %></div>
+            <div class="prince"><%= item.price %></div>
+        </div>
+    <% }) %>
+</div>
+</body>
+</html>
