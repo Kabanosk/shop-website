@@ -5,9 +5,50 @@ const process = require("process");
 const path = require("path");
 const bodyParser = require("body-parser");
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
+const multer = require('multer');
+const fs = require('fs');
+
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+ 
+var upload = multer({ storage: storage });
 
 const app = express();
+
+
+main().catch(err => console.log(err));
+
+
+const itemSchema = new mongoose.Schema({
+    name: String,
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    },
+    desc: String,
+    price: Number
+  });
+  const Item = mongoose.model('item', itemSchema);
+
+
+async function main() {
+
+    const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/?retryWrites=true&w=majority";
+    await mongoose.connect(uri);
+
+
+}
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,16 +68,11 @@ app.use(session({
 }));
 app.use(cookieParser());
 
-let item = { // Example item
-    name: "Test",
-    img: ["test.jpg"],
-    desc: "Lorem ipsum dolor",
-    price: 20
-}
-const items = [item, item, item, item]; // Example items
 
-app.get("/", (req, res) => {
+
+app.get("/", async (req, res) => {
     console.log(req.session);
+    const items = await Item.find();
     res.render("index", {items: items});
 });
 app.post("/", (req, res) => {
@@ -48,15 +84,54 @@ app.post("/", (req, res) => {
            res.redirect("login");
        }
    }
+   if (req.body.add)
+   {
+    console.log("POOOOG");
+    res.redirect("add");
+   }
    if (req.body.searchbar) {
        let searchPhrase = req.body.searchbar;
        res.redirect("/search/" + searchPhrase);
    }
 });
-app.get("/search/:phrase", (req, res) => {
+app.get("/search/:phrase", async (req, res) => {
     let phrase = req.params.phrase;
-    let filteredItems = []; // TODO: searching through the database by phrase
+
+    let filteredItems = await Item.find({name : phrase});
+    
+    console.log(filteredItems);
     res.render("index", { items: filteredItems});
+    
+});
+
+app.get("/add", async (req, res) => {
+
+    const item = await Item.find();
+    res.render("add", {
+        items: item
+    });
+});
+
+app.post('/add', upload.single('image'), (req, res, next) => {
+ 
+    var obj = {
+        name: req.body.name,
+        desc: req.body.desc,
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        },
+        price: req.body.price
+    }
+    Item.create(obj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            item.save();
+            res.redirect('/add');
+        }
+    });
 });
 
 app.get("/profile", (req, res) => {
@@ -130,39 +205,6 @@ app.post("/card/add", (req, res) => {
     //  - after successful login add item to card
 });
 
-
-// testy
-
-async function main(){
-
-const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
-try {
-    // Connect to the MongoDB cluster
-    await client.connect();
-
-    const collection = client.db("primary").collection("users");
-
-    console.log(collection)
-     
-    await collection.insertMany(
-        [
-        { _id: 20, item: "lamp", qty: 50, type: "desk" },
-        { _id: 21, item: "lamp", qty: 20, type: "floor" },
-        { _id: 22, item: "bulk", qty: 100 }
-        ]
-    ); 
-    console.log("POG?")
-
-} catch (e) {
-    console.error(e);
-} finally {
-    await client.close();
-}
-}
-
-main().catch(console.error);
 
 
 app.listen(3000);
