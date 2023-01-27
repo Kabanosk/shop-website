@@ -6,6 +6,7 @@
 </head>
 <body>
     <form method="post" action="/admin/user/<%= action %>">
+        <!-- TODO: Dodać input na zdjęcie -->
         <label>
             Name: <input type="text" name="name" value="<%= (typeof user === undefined) ? user.name : ''%>">
         </label>

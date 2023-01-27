@@ -95,7 +95,7 @@ app.get("/admin/user/add", (req, res) => {
 });
 
 app.post("/admin/user/add", (req, res) => {
-    const new_user = {
+    const new_user = { // TODO: add id and add it to database
         name: req.body.name,
         surname: req.body.surname,
         email: req.body.email,
@@ -106,7 +106,7 @@ app.post("/admin/user/add", (req, res) => {
 });
 
 app.put("/admin/user/update", (req, res) => {
-    const updated_user = {
+    const updated_user = { // TODO: add id and update it in database
         name: req.body.name,
         surname: req.body.surname,
         email: req.body.email,
@@ -130,25 +130,25 @@ app.get("/admin/item/add", (req, res) => {
 });
 
 app.post("/admin/item/add", (req, res) => {
-    const new_item = {
+    const new_item = { // TODO: add id and add it to database
         name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password: req.body.password,
+        desc: req.body.desc,
+        price: req.body.price,
+        quantity: req.body.quantity,
         img: req.body.image
     };
     res.render("admin/item", {item: new_item, action: "add"});
 });
 
 app.put("/admin/item/update", (req, res) => {
-    const updated_item = {
+    const updated_item = { // TODO: add id and update it in database
         name: req.body.name,
         surname: req.body.surname,
         email: req.body.email,
         password: req.body.password,
         img: req.body.image
     };
-    res.render("admin/item", {item: updated_item, action: "add"});
+    res.render("admin/item", {item: updated_item, action: "update"});
 });
 
 app.get("/admin/items/:phrase", (req, res) => {
@@ -166,25 +166,15 @@ app.get("/admin/order/add", (req, res) => {
 });
 
 app.post("/admin/order/add", (req, res) => {
-    const new_order = {
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password: req.body.password,
-        img: req.body.image
+    const new_order = { // TODO: add id and add it to database
     };
     res.render("admin/order", {item: new_order, action: "add"});
 });
 
 app.put("/admin/order/update", (req, res) => {
-    const updated_order = {
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password: req.body.password,
-        img: req.body.image
+    const updated_order = { // TODO: add id and update it in database
     };
-    res.render("admin/item", {item: updated_order, action: "add"});
+    res.render("admin/item", {item: updated_order, action: "update"});
 });
 
 

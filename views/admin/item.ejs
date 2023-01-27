@@ -5,20 +5,21 @@
     <title><%= action %> Item</title>
 </head>
 <body>
-<form method="post" action="/admin/item/<%= action %>">
-    <label>
-        Name: <input type="text" name="name" value="<%= (typeof item === undefined) ? item.name : ''%>">
-    </label>
-    <label>
-        Surname: <input type="text" name="surname" value="<%= (typeof item === undefined) ? item.description : ''%>">
-    </label>
-    <label>
-        Email: <input type="text" name="email" value="<%= (typeof item === undefined) ? item. : ''%>">
-    </label>
-    <label>
-        Password: <input type="password" name="password" value="<%= (typeof item === undefined) ? item.password : ''%>">
-    </label>
-    <input type="submit" value="Accept">
-</form>
+    <form method="post" action="/admin/item/<%= action %>">
+        <!-- TODO: Dodać input na zdjęcie -->
+        <label>
+            Name: <input type="text" name="name" value="<%= (typeof item === undefined) ? item.name : ''%>">
+        </label>
+        <label>
+            Description: <input type="text" name="surname" value="<%= (typeof item === undefined) ? item.desc : ''%>">
+        </label>
+        <label>
+            Price: <input type="text" name="email" value="<%= (typeof item === undefined) ? item.price : ''%>">
+        </label>
+        <label>
+            Quantity: <input type="password" name="password" value="<%= (typeof item === undefined) ? item.quantity : ''%>">
+        </label>
+        <input type="submit" value="Accept">
+    </form>
 </body>
 </html>
