@@ -7,6 +7,4 @@ const ItemController = require("../controllers/ItemController")
 router.get("/add", ItemController.getAllItems);
 router.post("/add", upload.single('image'), ItemController.addItem);
 
-router.get("/item", ItemController.getItemById);
-
 module.exports = router;

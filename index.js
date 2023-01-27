@@ -42,8 +42,8 @@ app.use(session({
 app.use(cookieParser());
 
 /* Add routes */
-app.use("/", items);
-app.use("/", users);
+app.use("/items", items);
+app.use("/users", users);
 app.use("/", mainpage);
 app.use('/cart', carts);
 
