@@ -4,9 +4,7 @@ const cookieParser = require("cookie-parser")
 const process = require("process");
 const path = require("path");
 const bodyParser = require("body-parser");
-
 const mongoose = require('mongoose');
-const fs = require('fs');
 
 const app = express();
 
@@ -14,6 +12,7 @@ const app = express();
 const items = require('./routes/item.routes')
 const users = require('./routes/user.routes')
 const mainpage = require('./routes/main.routes')
+const carts = require('./routes/carts.routes')
 
 /* Connect to database routes */
 main().catch(err => console.log(err));
@@ -46,24 +45,7 @@ app.use(cookieParser());
 app.use("/", items);
 app.use("/", users);
 app.use("/", mainpage);
-
-app.get("/card", (req, res) => {
-    let user = req.session.user;
-    if (!user) {
-        res.redirect("login");
-    }
-    res.render("card", {items: user.card});
-});
-
-app.post("/card/checkout", (req, res) => {
-    // TODO: add order to db, clear user card
-    res.send("Order completed successfully!");
-});
-app.post("/card/add", (req, res) => {
-    // TODO: add to user's card list
-    //  if user not logged in then res.redirect("register/login", item)
-    //  - after successful login add item to card
-});
+app.use('/cart', carts);
 
 /* Host app */
 let PORT = 3000
