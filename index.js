@@ -6,39 +6,16 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const mongoose = require('mongoose');
-const multer = require('multer');
 const fs = require('fs');
-
-
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
- 
-var upload = multer({ storage: storage });
 
 const app = express();
 
+/* routers */
+const items = require('./routes/item.routes')
+
+
 
 main().catch(err => console.log(err));
-
-
-const itemSchema = new mongoose.Schema({
-    name: String,
-    img:
-    {
-        data: Buffer,
-        contentType: String
-    },
-    desc: String,
-    price: Number
-  });
-  const Item = mongoose.model('item', itemSchema);
-
 
 async function main() {
 
@@ -69,6 +46,8 @@ app.use(session({
 app.use(cookieParser());
 
 
+app.use("/", items);
+
 
 app.get("/", async (req, res) => {
     console.log(req.session);
@@ -86,7 +65,6 @@ app.post("/", async (req, res) => {
    }
    if (req.body.add)
    {
-    console.log("POOOOG");
     res.redirect("add");
    }
    if (req.body.searchbar) {
@@ -108,36 +86,6 @@ app.get("/search/:phrase", async (req, res) => {
     
 });
 
-app.get("/add", async (req, res) => {
-
-    const item = await Item.find();
-    res.render("add", {
-        items: item
-    });
-});
-
-app.post('/add', upload.single('image'), (req, res, next) => {
- 
-    var obj = {
-        name: req.body.name,
-        desc: req.body.desc,
-        img: {
-            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-            contentType: 'image/png'
-        },
-        price: req.body.price
-    }
-    Item.create(obj, (err, item) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            item.save();
-            res.redirect('/add');
-        }
-    });
-});
-
 app.get("/profile", (req, res) => {
     let user = req.session.user;
     if (!user) {
@@ -150,6 +98,7 @@ app.get("/profile", (req, res) => {
         surname: user.surname
     });
 });
+
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -187,10 +136,6 @@ app.post("/register", (req, res) => {
     res.redirect("/");
 });
 
-
-app.get("/item", (req, res) => {
-    res.render("item", {item: item});
-});
 app.get("/card", (req, res) => {
     let user = req.session.user;
     if (!user) {
