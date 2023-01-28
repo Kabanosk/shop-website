@@ -1,6 +1,5 @@
 const User = require("../model/User");
 const fs = require('fs');
-<<<<<<< HEAD
 const Auth = require("./Auth");
 const AuthenticationError = require("../errors/GenericErrors").AuthenticationError;
 const StatusCodes = require('http-status-codes').StatusCodes;
@@ -21,30 +20,9 @@ module.exports = class UserService{
         }
         catch (error) {
             console.log(`Could not login ${error}`)
-=======
-const Item = require("../model/Item");
-
-module.exports = class UserService{
-    static async getAllUsers() {
-        try {
-            return await User.find();
-        } catch (error) {
-            console.log(`Could not fetch items ${error}`)
-            throw error
         }
     }
 
-    static async getUsersByPhrase(phrase) {
-        try {
-            return await User.find({name: phrase});
-        } catch (error) {
-            console.log(`Could not fetch items ${error}`)
->>>>>>> 73861e3 (Add necessary functions for user service and missing functions in item service)
-            throw error
-        }
-    }
-
-<<<<<<< HEAD
     static async tryRegister(email, pass, name, surname){
         try {
             const checkUser = await User.find({email : email});
@@ -73,7 +51,27 @@ module.exports = class UserService{
         }
         catch (error) {
             console.log(`Could not register ${error}`)
-=======
+        }
+    }
+    
+    static async getAllUsers() {
+        try {
+            return await User.find();
+        } catch (error) {
+            console.log(`Could not fetch items ${error}`)
+            throw error
+        }
+    }
+
+    static async getUsersByPhrase(phrase) {
+        try {
+            return await User.find({name: phrase});
+        } catch (error) {
+            console.log(`Could not fetch items ${error}`)
+            throw error
+        }
+    }
+
     static async getUserById(userId) {
         try {
             return await User.findById({_id: userId});
@@ -120,7 +118,6 @@ module.exports = class UserService{
             User.findByIdAndDelete(_id);
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
->>>>>>> 73861e3 (Add necessary functions for user service and missing functions in item service)
             throw error
         }
     }
