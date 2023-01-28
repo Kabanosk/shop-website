@@ -5,12 +5,11 @@ const fs = require('fs');
 module.exports = class CartController{
     static async checkCart(req, res, next){
         try{
-            let user = req.session.user;
-            if (!user) {
-                res.redirect("/users/login");
-                return ;
+            let cart = req.session.cart;
+            if (!cart) {
+                cart = [];
             }
-            let cartItems = await Promise.all(user.cart.map(async (x) => await ItemService.getItembyId(x)));
+            let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
             res.render("cart", {items: cartItems});
         } catch (error) {
             res.status(500).json({error: error});

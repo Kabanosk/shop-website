@@ -40,15 +40,9 @@ module.exports = class UserService{
                 surname: surname,
                 cart : []
             }
-            User.create(obj, (err, user) => {
-                if (err) {
-                    throw err;
-                }
-                else {
-                    user.save();
-                }
-            });
-            return true;
+            let newUser = await User.create(obj);
+            newUser.save();
+            return newUser;
         }
         catch (error) {
             console.log(`Could not register ${error}`)
@@ -107,7 +101,7 @@ module.exports = class UserService{
 
     static async updateUser(_id, updated_user) {
         try {
-            User.findByIdAndUpdate(_id, updated_user);
+            await User.findByIdAndUpdate(_id, updated_user);
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
@@ -116,7 +110,7 @@ module.exports = class UserService{
 
     static async deleteUser(_id) {
         try {
-            User.findByIdAndDelete(_id);
+            await User.findByIdAndDelete(_id);
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
