@@ -49,6 +49,7 @@ module.exports = class UserService{
                     user.save();
                 }
             });
+            return true;
         }
         catch (error) {
             console.log(`Could not register ${error}`)

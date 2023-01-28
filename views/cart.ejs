@@ -13,7 +13,8 @@
     <div class="cart-items">
         <% for (var i = 0; i < items.length; i++) { %>
             <% let item = items[i] %>
-            <img src="<%= item.img[0] %>" height="100px" width="100px" style="float: left">
+            <img src="data:image/<%=item.img.contentType%>;base64,
+                <%=item.img.data.toString('base64')%>" height="100px" width="100px">
             <div style="float: left"><%= item.name %></div><br>
             <div style="float:left"><%= item.desc %></div><br>
             <div style="float: left"><%= item.price %></div>

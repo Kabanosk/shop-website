@@ -49,7 +49,7 @@ module.exports = class UserController{
                     email: user.email,
                     name: user.name,
                     surname: user.surname,
-                    card: []
+                    cart: []
                 };
                 res.redirect("/");
             }
@@ -72,14 +72,15 @@ module.exports = class UserController{
                 name = req.body.name,
                 surname = req.body.surname;
 
-            if(!(await UserService.tryRegister(email, password, name, surname)))
+            if(!(await UserService.tryRegister(email, password, name, surname))) {
                 res.redirect("/users/login");
-
+                return;
+            }
             req.session.user = {
                 email: email,
                 name: name,
                 surname: surname,
-                card: []
+                cart: []
             };
             res.redirect("/");
         } catch (error) {

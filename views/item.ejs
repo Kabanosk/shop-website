@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title><%= item.name %></title>
-    <link rel="stylesheet" href="item.css">
 </head>
 <body>
 <nav>
@@ -13,13 +12,15 @@
 <div class="content">
 
     <div class="image">
-        <img src="<%= item.img[0] %>" height="100px" width="100px">
+        <img src="data:image/<%=item.img.contentType%>;base64,
+                <%=item.img.data.toString('base64')%>" height="100px" width="100px">
     </div>
     <div class="information">
         <div class="name"><%= item.name %></div>
+        <div class="description"><%= item.desc %></div>
         <div class="price"><%= item.price %></div>
-        <form method="post" action="/card/add">
-            <input type="submit" value="Add to card">
+        <form method="post" action="/items/add_to_cart">
+            <input type="submit" value="Add to cart">
         </form>
     </div>
 </div>

@@ -6,9 +6,10 @@ module.exports = class CartController{
         try{
             let user = req.session.user;
             if (!user) {
-                res.redirect("login");
+                res.redirect("/users/login");
+                return ;
             }
-            res.render("cart", {items: user.card});
+            res.render("cart", {items: user.cart});
         } catch (error) {
             res.status(500).json({error: error});
         }

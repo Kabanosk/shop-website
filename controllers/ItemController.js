@@ -3,6 +3,16 @@ const path = require("path");
 const fs = require('fs');
 
 module.exports = class ItemController{
+
+    static async cartAddItem(req, res, next){
+        try {
+            
+            // TODO ADD TO CART
+            
+        } catch (error) {
+            res.status(500).json({error: error})
+        }
+    }
     static async getAllItems(req, res, next){
         try {
             const items = await ItemService.getAllItems();
@@ -19,15 +29,15 @@ module.exports = class ItemController{
 
     static async getItemById(req, res, next){
         try {
-            throw Error("Get item by id is not implemented");
 
-            // To be determined how to retrieve id from req
-
-            const items = await ItemService.getItemById(/* id from req here */);
-            if(!items){
+            const item = await ItemService.getItembyId(req.params.item_id);
+            if(!item){
                res.status(404).json("No items in the database.")
             }
-            res.json(items);
+            res.render("item", {
+                item: item
+            });
+
         } catch (error) {
             res.status(500).json({error: error})
         }
@@ -44,7 +54,7 @@ module.exports = class ItemController{
                 },
                 req.body.price
             );
-            res.redirect('/add');
+            res.redirect('/items/add');
         } catch (error) {
             res.status(500).json({error: error});
         }
