@@ -4,21 +4,21 @@ const fs = require('fs');
 module.exports = class ItemService{
     static async getAllItems(){
         try {
-            const items = await Item.find();
-            return items;
+            return await Item.find();
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
         }
     }
 
-    static async addItem(name, description, image, price){
+    static async addItem(name, description, image, price, quantity){
         try {
             var obj = {
                 name: name,
                 desc: description,
                 img: image,
-                price: price
+                price: price,
+                quantity: quantity
             }
             Item.create(obj, (err, item) => {
                 if (err) {
@@ -36,8 +36,7 @@ module.exports = class ItemService{
 
     static async getItembyId(itemId){
         try {
-            const singleItemResponse =  await Item.findById({_id: itemId});
-            return singleItemResponse;
+            return await Item.findById({_id: itemId});
         } catch (error) {
             console.log(`Item not found. ${error}`)
             throw error
@@ -46,13 +45,18 @@ module.exports = class ItemService{
 
     static async getItemsByPhrase(phrase){
         try {
-            const items = await Item.find({name : phrase});
-            return items;
+            return await Item.find({name: phrase});
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
         }
     }
 
-    //Later on will add update and delete options
+    static async updateItem(_id, updated_item) {
+        // TODO
+    }
+
+    static async deleteItem(_id) {
+        // TODO
+    }
 }
