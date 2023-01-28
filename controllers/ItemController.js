@@ -3,12 +3,11 @@ const path = require("path");
 const fs = require('fs');
 
 module.exports = class ItemController{
-
-    static async cartAddItem(req, res, next){
+    static async saveItemToCart(req, res, next){
         try {
-            
-            // TODO ADD TO CART
-            
+            req.session.user.cart.push(req.params.item_id);
+            req.session.save();
+            res.status(204).send(); // Return a 204 (No Content response)
         } catch (error) {
             res.status(500).json({error: error})
         }
@@ -29,7 +28,6 @@ module.exports = class ItemController{
 
     static async getItemById(req, res, next){
         try {
-
             const item = await ItemService.getItembyId(req.params.item_id);
             if(!item){
                res.status(404).json("No items in the database.")

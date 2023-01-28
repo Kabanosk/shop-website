@@ -49,7 +49,7 @@ module.exports = class UserController{
                     email: user.email,
                     name: user.name,
                     surname: user.surname,
-                    cart: []
+                    cart: [],
                 };
                 res.redirect("/");
             }

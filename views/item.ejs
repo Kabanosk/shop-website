@@ -19,8 +19,8 @@
         <div class="name"><%= item.name %></div>
         <div class="description"><%= item.desc %></div>
         <div class="price"><%= item.price %></div>
-        <form method="post" action="/items/add_to_cart">
-            <input type="submit" value="Add to cart">
+        <form method="post" action="/items/<%=item.id%>">
+            <input type="submit" value="Add to cart" name="add_to_cart">
         </form>
     </div>
 </div>

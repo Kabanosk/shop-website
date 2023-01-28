@@ -14,7 +14,7 @@
         <% for (var i = 0; i < items.length; i++) { %>
             <% let item = items[i] %>
             <img src="data:image/<%=item.img.contentType%>;base64,
-                <%=item.img.data.toString('base64')%>" height="100px" width="100px">
+                <%=item.img.data.toString('base64')%>" height="200px" width="200px">
             <div style="float: left"><%= item.name %></div><br>
             <div style="float:left"><%= item.desc %></div><br>
             <div style="float: left"><%= item.price %></div>
