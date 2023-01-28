@@ -54,5 +54,21 @@ module.exports = class ItemService{
         }
     }
 
-    //Later on will add update and delete options
+    static async updateItem(_id, updated_item) {
+        try {
+            Item.findByIdAndUpdate(_id, updated_item);
+        } catch (error) {
+            console.log(`Could not fetch items ${error}`)
+            throw error
+        }
+    }
+
+    static async deleteItem(_id) {
+        try {
+            Item.findByIdAndDelete(_id);
+        } catch (error) {
+            console.log(`Could not fetch items ${error}`)
+            throw error
+        }
+    }
 }
