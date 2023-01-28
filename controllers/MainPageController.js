@@ -16,18 +16,21 @@ module.exports = class MainPageController{
         try{
             if (req.body.profile) {
                 if (req.session.user) {
-                    res.redirect("profile");
+                    res.redirect("/users/profile");
                 } else {
-                    res.redirect("login");
+                    res.redirect("/users/login");
                 }
             }
             else if (req.body.add) {
-                res.redirect("add");
+                res.redirect("/items/add");
             }
             else if (req.body.searchbar) {
                 let searchPhrase = req.body.searchbar;
                 res.redirect("/search/" + searchPhrase);
             }
+            else if (req.body.cart) {
+                res.redirect("/cart");
+            } 
             else {
                 const items = await ItemService.getAllItems();
                 res.render("index", {items: items});

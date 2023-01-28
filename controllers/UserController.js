@@ -1,24 +1,25 @@
 const UserService = require("../services/UserService");
-const path = require("path");
-const fs = require('fs');
+const HttpError = require("../errors/GenericErrors").HttpError;
 
 module.exports = class UserController{
     static async openProfile(req, res, next){
         try{
             let user = req.session.user;
             if (!user) {
-                res.redirect("login");
+                res.redirect("/users/login");
             }
             else{
                 res.render("profile", {
                     email: user.email,
-                    password: user.password,
                     name: user.name,
                     surname: user.surname
                 });
             }
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -26,28 +27,37 @@ module.exports = class UserController{
         try{
             res.render("login");
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
     static async tryLogin(req, res, next){
         try{
             if (req.body["register"]) {
-                res.redirect("register");
+                res.redirect("/users/register");
             }
             else{
                 let email = req.body.email,
                     password = req.body.password;
 
-                /*  
-                *   TODO: authentication. add this in userService
-                */
+                const user = await UserService.tryLogin(email, password);
 
-                req.session.user = {email: email, password: password, card: items};
+                req.session.user = {
+                    email: user.email,
+                    name: user.name,
+                    surname: user.surname,
+                    cart: [],
+                };
                 res.redirect("/");
             }
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -62,20 +72,22 @@ module.exports = class UserController{
                 name = req.body.name,
                 surname = req.body.surname;
 
-            /*  
-            *   TODO: authentication. add this in userService
-            */
-
+            if(!(await UserService.tryRegister(email, password, name, surname))) {
+                res.redirect("/users/login");
+                return;
+            }
             req.session.user = {
                 email: email,
-                password: password,
                 name: name,
                 surname: surname,
-                card: items
+                cart: []
             };
             res.redirect("/");
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }
