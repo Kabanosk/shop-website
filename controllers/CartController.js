@@ -1,3 +1,4 @@
+const ItemService = require("../services/ItemService");
 const path = require("path");
 const fs = require('fs');
 
@@ -6,9 +7,11 @@ module.exports = class CartController{
         try{
             let user = req.session.user;
             if (!user) {
-                res.redirect("login");
+                res.redirect("/users/login");
+                return ;
             }
-            res.render("cart", {items: user.card});
+            let cartItems = await Promise.all(user.cart.map(async (x) => await ItemService.getItembyId(x)));
+            res.render("cart", {items: cartItems});
         } catch (error) {
             res.status(500).json({error: error});
         }

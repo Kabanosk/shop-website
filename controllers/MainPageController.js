@@ -28,6 +28,9 @@ module.exports = class MainPageController{
                 let searchPhrase = req.body.searchbar;
                 res.redirect("/search/" + searchPhrase);
             }
+            else if (req.body.cart) {
+                res.redirect("/cart");
+            } 
             else {
                 const items = await ItemService.getAllItems();
                 res.render("index", {items: items});
