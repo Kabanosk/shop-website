@@ -22,17 +22,16 @@ module.exports = class AdminMainController {
             if (req.body.searchbar) {
                 let searchPhrase = req.body.searchbar;
                 res.redirect("/admin/users/" + searchPhrase);
-            }
-            if (req.body.users) {
+            } else if (req.body.users) {
                 res.redirect("/admin/users");
-            }
-            if (req.body.items) {
+            } else if (req.body.items) {
                 res.redirect("/admin/items");
-            }
-            if (req.body.orders) {
+            } else if (req.body.orders) {
                 res.redirect("/admin/orders");
+            } else {
+                res.render("admin/users", {users: UserService.getAllUsers()});
             }
-            res.render("admin/users", {users: UserService.getAllUsers()});
+            
         } catch (error) {
             res.status(500).json({error: error})
         }
