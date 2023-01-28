@@ -15,6 +15,7 @@ const mainpage = require('./routes/main.routes')
 const carts = require('./routes/carts.routes')
 
 const adminItems = require("./routes/admin/item.routes")
+const adminMainPage = require("./routes/admin/main.routes")
 
 /* Connect to database routes */
 main().catch(err => console.log(err));
@@ -49,7 +50,8 @@ app.use("/users", users);
 app.use("/", mainpage);
 app.use('/cart', carts);
 
-app.use("/admin", adminItems);
+app.use("/admin/items", adminItems);
+app.use("/admin", adminMainPage);
 
 /* Host app */
 let PORT = 3000
