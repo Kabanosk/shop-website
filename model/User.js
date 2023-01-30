@@ -14,7 +14,7 @@ const userSchema = new Schema({
     salt : String,
     name: String,
     surname: String,
-    cart: [Number]
+    cart: [String]
   });
 
 module.exports = User = mongoose.model("user", userSchema);
