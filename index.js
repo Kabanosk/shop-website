@@ -23,6 +23,7 @@ main().catch(err => console.log(err));
 
 async function main() {
     const uri = "mongodb+srv://SKOWI:TEST@website.thkbz9w.mongodb.net/primary?retryWrites=true&w=majority";
+    mongoose.set("strictQuery", false);
     await mongoose.connect(uri);
 }
 
