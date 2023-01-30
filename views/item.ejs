@@ -3,30 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title><%= item.name %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<nav>
 
-</nav>
+<%- include('partials/navbar.ejs') %>
 
-<div class="content">
-
-    <div class="image">
-        <img src="data:image/<%=item.img.contentType%>;base64,
-                <%=item.img.data.toString('base64')%>" height="100px" width="100px">
-    </div>
-    <div class="information">
-        <div class="name"><%= item.name %></div>
-        <div class="description"><%= item.desc %></div>
-        <div class="price"><%= item.price %></div>
-        <form method="post" action="/items/<%=item.id%>">
-            <input type="submit" value="Add to cart" name="add_to_cart">
-        </form>
-    </div>
+<div class="w-75 p-5 d-flex flex-column min-vw-100">
+    <%- include('partials/item_miniature', {item: item}) %>
+    <form action="/cart/add" method="post" class="d-flex flex-grow-1 justify-content-center align-items-center">
+        <button type="submit" class="btn btn-primary">Add to cart</button>
+    </form>
 </div>
 
-<footer>
+<script
+src="../js/bootstrap.min.js"
+></script>
+<script
+src="../js/jquery.slim.min.js"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+crossorigin="anonymous"
+></script>
 
-</footer>
 </body>
 </html>
