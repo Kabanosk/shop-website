@@ -12,16 +12,9 @@
 
 <%- include('partials/navbar.ejs') %>
 
-<div class="items">
+<div class="p-5 gap-3 d-flex flex-column min-vw-100">
     <% items.forEach(function(item) { %>
-        <div class="item" style="float: left; margin: 20px">
-            
-            <img src="data:image/<%=item.img.contentType%>;base64,
-            <%=item.img.data.toString('base64')%>" height="200px" width="200px">
-            <div class="name"><%= item.name %></div>
-            <div class="description"><%= item.desc %></div>
-            <div class="price"><%= item.price %></div>
-        </div>
+        <%- include('partials/item_miniature.ejs', {item: item})%>
     <% }) %>
 </div>
 
