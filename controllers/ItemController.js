@@ -1,12 +1,21 @@
 const ItemService = require("../services/ItemService");
+const UserService = require("../services/UserService");
 const path = require("path");
 const fs = require('fs');
 
 module.exports = class ItemController{
     static async saveItemToCart(req, res, next){
         try {
-            req.session.user.cart.push(req.params.item_id);
+            if(!req.session.cart) {
+                req.session.cart = [req.params.item_id];
+            } else {
+                req.session.cart.push(req.params.item_id);
+            }
             req.session.save();
+            if(req.session.user) {
+                await UserService.updateUser(req.session.user._id, {cart : req.session.cart});
+            }
+            
             res.status(204).send(); // Return a 204 (No Content response)
         } catch (error) {
             res.status(500).json({error: error})
