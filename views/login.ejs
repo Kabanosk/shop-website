@@ -28,6 +28,12 @@
     <form action="/users/register" method="get" class="d-flex p-3 flex-column flex-grow-1 justify-content-center align-items-center">
         <button type="submit" class="btn btn-primary">No account? Register now!</button>
     </form>
+
+    <% if(locals.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error.message %>
+        </div>
+     <% } %>
 </div>
 
 <script

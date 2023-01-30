@@ -19,7 +19,8 @@ module.exports = class UserService{
                 throw new AuthenticationError("Incorrect password.", StatusCodes.FORBIDDEN);
         }
         catch (error) {
-            console.log(`Could not login ${error}`)
+            console.log(`Could not login ${error}`);
+            throw error;
         }
     }
 
@@ -45,7 +46,8 @@ module.exports = class UserService{
             return newUser;
         }
         catch (error) {
-            console.log(`Could not register ${error}`)
+            console.log(`Could not register ${error}`);
+            throw error;
         }
     }
     
