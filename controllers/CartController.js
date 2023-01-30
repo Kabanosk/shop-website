@@ -1,7 +1,7 @@
 const ItemService = require("../services/ItemService");
 const path = require("path");
 const fs = require('fs');
-
+const HttpError = require("../errors/GenericErrors").HttpError;
 module.exports = class CartController{
     static async checkCart(req, res, next){
         try{
@@ -24,11 +24,22 @@ module.exports = class CartController{
         }
     }
 
-    static async addToCart(req, res, next){
+    static async deleteFromCart(req, res, next){
         try{
-            throw Error("Adding to cart has not been implemented");
+
+            let index = req.session.cart.indexOf(req.body.item_id);
+            req.session.cart.splice(index,1);
+            req.session.save();
+
+            if(req.session.user) {
+                await UserService.updateUser(req.session.user._id, {cart : req.session.cart});
+            }
+            res.end();
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }
