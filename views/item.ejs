@@ -12,7 +12,7 @@
 
 <div class="w-75 p-5 d-flex flex-column min-vw-100">
     <%- include('partials/item_miniature', {item: item}) %>
-    <form action="/cart/add" method="post" class="d-flex flex-grow-1 justify-content-center align-items-center">
+    <form action="/items/<%=item.id%>" method="post" class="d-flex flex-grow-1 justify-content-center align-items-center">
         <button type="submit" class="btn btn-primary">Add to cart</button>
     </form>
 </div>
