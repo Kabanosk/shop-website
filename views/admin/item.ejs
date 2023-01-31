@@ -11,13 +11,13 @@
             Name: <input type="text" name="name" value="<%= (typeof item === undefined) ? item.name : ''%>">
         </label>
         <label>
-            Description: <input type="text" name="surname" value="<%= (typeof item === undefined) ? item.desc : ''%>">
+            Description: <input type="text" name="desc" value="<%= (typeof item === undefined) ? item.desc : ''%>">
         </label>
         <label>
-            Price: <input type="text" name="email" value="<%= (typeof item === undefined) ? item.price : ''%>">
+            Price: <input type="number" name="price" value="<%= (typeof item === undefined) ? item.price : ''%>">
         </label>
         <label>
-            Quantity: <input type="password" name="password" value="<%= (typeof item === undefined) ? item.quantity : ''%>">
+            Quantity: <input type="number" name="quantity" value="<%= (typeof item === undefined) ? item.quantity : ''%>">
         </label>
         <input type="submit" value="Accept">
     </form>

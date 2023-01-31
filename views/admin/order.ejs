@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order <%= order.id %></title>
+    <title><%= action %> Order</title>
 </head>
 <body>
-
+<form method="post" action="/admin/order/<%= action %>">
+    <label>
+    User Email: <input type="email" name="user_email" value="<%= (typeof order === undefined) ? order.user_email : ''%>">
+    </label>
+    <label>
+    Date: <input type="date" name="date" value="<%= (typeof order === undefined) ? order.date : ''%>">
+    </label>
+    <label>
+    Price: <input type="number" name="price" value="<%= (typeof order === undefined) ? order.price : ''%>">
+    </label>
+    <input type="submit" value="Accept">
+</form>
 </body>
 </html>

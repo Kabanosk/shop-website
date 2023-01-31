@@ -28,6 +28,16 @@ async function main() {
 }
 
 /* Setup app settings */
+app.use(
+    "/css",
+    express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
+);
+app.use(
+    "/js",
+    express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
+);
+app.use("/js", express.static(path.join(__dirname, "node_modules/jquery/dist"))); 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

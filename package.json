@@ -20,11 +20,13 @@
   "homepage": "https://github.com/Kabanosk/shop-website#readme",
   "dependencies": {
     "body-parser": "^1.20.1",
+    "bootstrap": "^5.2.3",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "http-status-codes": "^2.2.0",
+    "jquery": "^3.6.3",
     "mongodb": "^4.13.0",
     "mongoose": "^6.9.0",
     "multer": "^1.4.5-lts.1",

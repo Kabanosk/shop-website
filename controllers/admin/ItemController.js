@@ -29,7 +29,7 @@ module.exports = class AdminItemController {
 
     static async renderAddingForm(req, res, next){
         try {
-            const item = await ItemService.getItemById(res, req, next);
+            const item = await ItemService.getItembyId(res, req, next);
             if(!item){
                 res.render("admin/item", {
                     action: "add"
@@ -63,7 +63,7 @@ module.exports = class AdminItemController {
 
     static async updateItem(req, res, next) {
         try {
-            const item = ItemService.getItemById(req, res, next);
+            const item = ItemService.getItembyId(req, res, next);
             if (!item) {
                 throw Error("404! Item not found");
             }
@@ -86,7 +86,7 @@ module.exports = class AdminItemController {
 
     static async deleteItem(req, res, next) {
         try {
-            const item = ItemService.getItemById(req, res, next);
+            const item = ItemService.getItembyId(req, res, next);
 
             await ItemService.deleteItem(item.id);
             res.render("admin/items", {items: ItemService.getAllItems(), msg: "Image deleted successfully"});
