@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        async function SendOrder(){
+            var response = await fetch('/cart/checkout/add', {
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({}),
+                method: 'post'
+            })
+            var responseText = await response.text();
+            window.history.go(-1);
+        }
+    </script>
+</head>
+<body>
+<nav>
+
+</nav>
+
+<div class="content">
+    <div class="cart-items">
+        <% for (var i = 0; i < items.length; i++) { %>
+            
+                <% let item = items[i] %>
+                <div style="float: left"><%= item.name %></div>
+                <div style="float:left"><%= item.desc %></div>
+                <div style="float: left"><%= item.price %></div>
+                <div style="clear: both; margin-bottom: 10px"></div>  
+        <% } %>
+        <input type="submit" value="Send Order" name="sendOrder" onclick="SendOrder()">
+    </div>
+</div>
+
+<footer></footer>
+</body>
+</html>

@@ -7,7 +7,6 @@ const orderSchema = new Schema({
     price: Number,
     user_email: {
         type: String,
-        unique: true,
         required: true,
     }
 });
