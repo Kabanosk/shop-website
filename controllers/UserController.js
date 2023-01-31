@@ -1,4 +1,5 @@
 const { read } = require("fs");
+const { AuthenticationError } = require("../errors/GenericErrors");
 const UserService = require("../services/UserService");
 const HttpError = require("../errors/GenericErrors").HttpError;
 
@@ -60,7 +61,10 @@ module.exports = class UserController{
                 res.redirect("/");
             }
         } catch (error) {
-            if(error instanceof HttpError)
+            if(error instanceof AuthenticationError){
+                res.render('login.ejs', {error: error});
+            }
+            else if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
             else
                 throw error;
@@ -96,7 +100,10 @@ module.exports = class UserController{
             }
             res.redirect("/");
         } catch (error) {
-            if(error instanceof HttpError)
+            if(error instanceof AuthenticationError){
+                res.render('register.ejs', {error: error});
+            }
+            else if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
             else
                 throw error;
