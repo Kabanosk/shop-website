@@ -1,7 +1,7 @@
 const UserService = require("../../services/UserService");
 const path = require("path");
 const fs = require('fs');
-const HttpError = require("../errors/GenericErrors").HttpError;
+const HttpError = require("../../errors/GenericErrors").HttpError;
 
 
 module.exports = class AdminMainController {

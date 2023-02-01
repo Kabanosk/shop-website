@@ -3,7 +3,7 @@ const ItemService = require("../../services/ItemService");
 
 const path = require("path");
 const fs = require('fs');
-const HttpError = require("../errors/GenericErrors").HttpError;
+const HttpError = require("../../errors/GenericErrors").HttpError;
 
 module.exports = class AdminUserController {
     static async renderPage(req, res, next){
