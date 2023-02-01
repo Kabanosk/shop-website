@@ -40,30 +40,29 @@
 
 
 <div class="w-75 p-5 d-flex flex-column min-vw-100">
-    <form action="/admin/items/update" method="post" enctype="multipart/form-data" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
-        <input type="text" id="id" name="id" value="<%= item._id %>" hidden>
+    <form action="/admin/items/add" method="post" enctype="multipart/form-data" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
         <div class="mb-3 w-50">
             <label for="name" class="form-label">Item name:</label>
-            <input type="name" name="name" class="form-control" value="<%= item.name %>" required>
+            <input type="name" name="name" class="form-control" required>
         </div>
         <div class="mb-3 w-50">
             <label for="desc" class="form-label">Item description:</label>
-            <textarea rows="3" type="desc" name="desc" class="form-control" value="<%= item.desc %>" required></textarea>
+            <textarea rows="3" type="desc" name="desc" class="form-control" required></textarea>
         </div>
         <div class="mb-3 w-50">
             <label for="price" class="form-label">Item price:</label>
-            <input type="price" name="price" class="form-control" value="<%= item.price %>" required>
+            <input type="price" name="price" class="form-control" required>
         </div>
         <div class="mb-3 w-50">
             <label for="quantity" class="form-label">Item quantity:</label>
-            <input type="quantity" name="quantity" class="form-control" value="<%= item.quantity %>" required>
+            <input type="quantity" name="quantity" class="form-control" required>
         </div>
         <div class="mb-3 w-50">
             <label for="surname" class="form-label">Item image</label>
             <input type="file" id="image" name="image" value="" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update item</button>
+        <button type="submit" class="btn btn-primary">Add item</button>
     </form>
 </div>
 

@@ -40,18 +40,19 @@
 
 
 <div class="w-75 p-5 d-flex flex-column min-vw-100">
-    <form action="/admin/user/<%= action %>"" method="post" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
+    <form action="/admin/users/update" method="post" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
+        <input type="hidden" id="id" name="id" value="<%= user._id %>">
         <div class="mb-3 w-50">
         <label for="email" class="form-label">Email address</label>
-        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= (typeof user === undefined) ? user.email : ''%>">
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= user.email %>">
         </div>
         <div class="mb-3 w-50">
             <label for="name" class="form-label">Name</label>
-            <input type="name"  name="name" class="form-control" value="<%= (typeof user === undefined) ? user.name : ''%>">
+            <input type="name"  name="name" class="form-control" value="<%= user.name %>">
         </div>
         <div class="mb-3 w-50">
             <label for="surname" class="form-label">Surname</label>
-            <input type="surname" name="surname" class="form-control" value="<%= (typeof user === undefined) ? user.surname : ''%>">
+            <input type="surname" name="surname" class="form-control" value="<%= user.surname %>">
         </div>
 
         <button type="submit" class="btn btn-primary">Accept</button>

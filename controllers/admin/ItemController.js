@@ -3,9 +3,6 @@ const path = require("path");
 const fs = require('fs');
 const HttpError = require("../../errors/GenericErrors").HttpError;
 
-
-const HttpError = require("../../errors/GenericErrors").HttpError;
-
 module.exports = class AdminItemController {
     static async renderPage(req, res, next){
         try {
@@ -38,7 +35,7 @@ module.exports = class AdminItemController {
         try {
             if(!req.params.item_id)
             {
-                res.render("admin/item", {
+                res.render("admin/newitem", {
                     item: undefined,
                     action: "add"
                 });

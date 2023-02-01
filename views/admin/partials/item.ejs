@@ -19,10 +19,11 @@
                     </p>
                 </div>
                 <div class="d-flex flew-grow-2">
-                    <form action="TODO" method="get" class="p-2 ps-4">
+                    <form action="/admin/items/update/<%= item.id %>" method="get" class="p-2 ps-4">
                         <button class="btn btn-primary">Update</button>
                     </form>
-                    <form action="TODO" method="get" class="p-2">
+                    <form action="/admin/items/delete" method="post" class="p-2">
+                        <input type="hidden" id="id" name="id" value="<%= item._id %>">
                         <button class="btn btn-primary">Delete</button>
                     </form>
                 </div>

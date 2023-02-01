@@ -25,7 +25,7 @@ module.exports = class AdminUserController {
 
     static async renderSearchedPage(req, res, next) {
         try{
-            let phrase = req.params.phrase;
+            let phrase = req.query.phrase;
             let filteredUsers = await UserService.getUsersByPhrase(phrase);
             res.render("admin/users", { users: filteredUsers});
         } catch (error) {
@@ -38,7 +38,7 @@ module.exports = class AdminUserController {
 
     static async renderAddingForm(req, res, next){
         try {
-            const userToEdit = await UserService.getUserById(req.params.user_id);
+            const userToEdit = await UserService.getUserById(req.query.user_id);
             let cart = userToEdit.cart;
             let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
             res.render("admin/user", {
