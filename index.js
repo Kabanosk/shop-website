@@ -71,6 +71,6 @@ app.use("/admin/orders", adminOrders);
 /* Host app */
 let PORT = 3000
 app.listen(PORT);
-console.log(`started at https://localhost:${PORT}/`);
+console.log(`started at http://localhost:${PORT}/`);
 
 
