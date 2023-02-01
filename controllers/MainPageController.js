@@ -1,6 +1,8 @@
 const path = require("path");
 const fs = require('fs');
 const ItemService = require('../services/ItemService')
+const HttpError = require("../errors/GenericErrors").HttpError;
+
 
 module.exports = class MainPageController{
     static async openMainPage(req, res, next){
@@ -8,7 +10,10 @@ module.exports = class MainPageController{
             const items = await ItemService.getAllItems();
             res.render("index", {items: items});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -36,7 +41,10 @@ module.exports = class MainPageController{
                 res.render("index", {items: items});
             }
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -46,7 +54,10 @@ module.exports = class MainPageController{
             let filteredItems = await ItemService.getItemsByPhrase(phrase);
             res.render("index", { items: filteredItems});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }

@@ -14,7 +14,10 @@ module.exports = class CartController{
             let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
             res.render("cart", {items: cartItems});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -44,9 +47,6 @@ module.exports = class CartController{
     static async goToCheckout(req, res, next){
         try{
             if (!req.session.cart || !req.session.user || req.session.cart.length == 0) {
-                console.log("Got ya");
-                console.log(req.session.cart);
-                console.log(res.session.user);
                 throw Error("Cart is empty or user not logged"); // TODO add message in frontend
             }
             let cartItems = await Promise.all(req.session.cart.map(async (x) => await ItemService.getItembyId(x)));
@@ -61,7 +61,6 @@ module.exports = class CartController{
 
     static async deleteFromCart(req, res, next){
         try{
-            console.log(req.body);
             let index = req.session.cart.indexOf(req.body.item_id);
             req.session.cart.splice(index,1);
             req.session.save();
@@ -69,6 +68,7 @@ module.exports = class CartController{
             if(req.session.user) {
                 await UserService.updateUser(req.session.user._id, {cart : req.session.cart});
             }
+
             res.end();
         } catch (error) {
             if(error instanceof HttpError)

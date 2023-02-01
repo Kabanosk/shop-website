@@ -1,6 +1,8 @@
 const ItemService = require("../../services/ItemService");
 const path = require("path");
 const fs = require('fs');
+const HttpError = require("../errors/GenericErrors").HttpError;
+
 
 module.exports = class AdminItemController {
     static async renderPage(req, res, next){
@@ -13,7 +15,10 @@ module.exports = class AdminItemController {
                 items: items
             });
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -41,7 +46,10 @@ module.exports = class AdminItemController {
                 });
             }
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -57,7 +65,10 @@ module.exports = class AdminItemController {
 
             res.render("admin/item", {action: "add", msg: "Image added successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -80,7 +91,10 @@ module.exports = class AdminItemController {
             await ItemService.updateItem(item.id, updated_item)
             res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -91,7 +105,10 @@ module.exports = class AdminItemController {
             await ItemService.deleteItem(item.id);
             res.render("admin/items", {items: ItemService.getAllItems(), msg: "Image deleted successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }
