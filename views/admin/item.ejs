@@ -48,16 +48,16 @@
         </div>
         <div class="mb-3 w-50">
             <label for="desc" class="form-label">Item description:</label>
-            <textarea rows="3" type="desc" name="desc" class="form-control" value="<%= item.desc %>" required></textarea>
+            <textarea rows="3" type="desc" name="desc" class="form-control" required><%= item.desc %></textarea>
         </div>
         <div class="mb-3 w-50">
             <label for="price" class="form-label">Item price:</label>
             <input type="price" name="price" class="form-control" value="<%= item.price %>" required>
         </div>
-        <div class="mb-3 w-50">
+        <!-- <div class="mb-3 w-50">
             <label for="quantity" class="form-label">Item quantity:</label>
             <input type="quantity" name="quantity" class="form-control" value="<%= item.quantity %>" required>
-        </div>
+        </div> -->
         <div class="mb-3 w-50">
             <label for="surname" class="form-label">Item image</label>
             <input type="file" id="image" name="image" value="" required>
