@@ -1,5 +1,5 @@
 const OrderService = require("../../services/OrderService");
-const HttpError = require("../errors/GenericErrors").HttpError;
+const HttpError = require("../../errors/GenericErrors").HttpError;
 
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
