@@ -1,7 +1,9 @@
 const ItemService = require("../services/ItemService");
+const UserService = require("../services/UserService");
+const OrderService = require("../services/OrderService")
 const path = require("path");
 const fs = require('fs');
-
+const HttpError = require("../errors/GenericErrors").HttpError;
 module.exports = class CartController{
     static async checkCart(req, res, next){
         try{
@@ -16,19 +18,63 @@ module.exports = class CartController{
         }
     }
 
-    static async goToCheckout(req, res, next){
+    static async addOrderToDB(req, res, next) {
         try{
-            throw Error("Checkout has not been implemented");
+            let cart = req.session.cart;
+            let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
+            let finalPrice = 0;
+            for(var i = 0; i < cartItems.length; i++) {
+                finalPrice += cartItems[i].price;
+            }
+            await OrderService.addOrder(
+                req.session.cart,
+                new Date(),
+                finalPrice,
+                req.session.user.email
+            );
+            res.end();
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
-    static async addToCart(req, res, next){
+    static async goToCheckout(req, res, next){
         try{
-            throw Error("Adding to cart has not been implemented");
+            if (!req.session.cart || !req.session.user || req.session.cart.length == 0) {
+                console.log("Got ya");
+                console.log(req.session.cart);
+                console.log(res.session.user);
+                throw Error("Cart is empty or user not logged"); // TODO add message in frontend
+            }
+            let cartItems = await Promise.all(req.session.cart.map(async (x) => await ItemService.getItembyId(x)));
+            res.render("checkout", {items: cartItems});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
+        }
+    }
+
+    static async deleteFromCart(req, res, next){
+        try{
+            console.log(req.body);
+            let index = req.session.cart.indexOf(req.body.item_id);
+            req.session.cart.splice(index,1);
+            req.session.save();
+
+            if(req.session.user) {
+                await UserService.updateUser(req.session.user._id, {cart : req.session.cart});
+            }
+            res.end();
+        } catch (error) {
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }

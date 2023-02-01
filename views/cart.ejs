@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        async function DeleteFromCart(itemID){
+
+            var response = await fetch('/cart', {
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({item_id: itemID}),
+                method: 'post'
+            })
+            var responseText = await response.text();
+
+            window.location.reload();
+
+           
+        }
+    </script>
 </head>
 <body>
 <nav>
@@ -12,13 +27,17 @@
 <div class="content">
     <div class="cart-items">
         <% for (var i = 0; i < items.length; i++) { %>
-            <% let item = items[i] %>
-            <img src="data:image/<%=item.img.contentType%>;base64,
-                <%=item.img.data.toString('base64')%>" height="200px" width="200px">
-            <div style="float: left"><%= item.name %></div><br>
-            <div style="float:left"><%= item.desc %></div><br>
-            <div style="float: left"><%= item.price %></div>
-            <div style="clear: both; margin-bottom: 10px"></div>
+            
+                <% let item = items[i] %>
+                <img src="data:image/<%=item.img.contentType%>;base64,
+                    <%=item.img.data.toString('base64')%>" height="200px" width="200px">
+                <div style="float: left"><%= item.name %></div><br>
+                <div style="float:left"><%= item.desc %></div><br>
+                <div style="float: left"><%= item.price %></div>
+                <div style="clear: both; margin-bottom: 10px"></div>
+
+                <input type="submit" value="Delete From Cart" name="deleteFromCart" onclick="DeleteFromCart( <% item._id %> )">
+                
         <% } %>
     </div>
     <form action="/cart/checkout" method="post">
