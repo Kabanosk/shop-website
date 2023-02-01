@@ -41,9 +41,9 @@
 <h1 class="pt-3" style="text-align: center;"> Orders </h1>
 
 <div class="content">
-    <% orders.forEach((order) => { %>
-        <%- include('partials/order.ejs', {order: order}) %>
-    <% }) %>
+    <% for (var i = 0; i < orders.length; i++) { %>
+        <%- include('partials/order.ejs', {order: orders[i], cart: items[i]}); %>
+    <% } %>
 </div>
 </body>
 </html>
