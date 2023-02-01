@@ -1,6 +1,8 @@
 const ItemService = require("../../services/ItemService");
 const path = require("path");
 const fs = require('fs');
+const HttpError = require("../errors/GenericErrors").HttpError;
+
 
 const HttpError = require("../../errors/GenericErrors").HttpError;
 
@@ -15,7 +17,10 @@ module.exports = class AdminItemController {
                 items: items
             });
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -46,7 +51,10 @@ module.exports = class AdminItemController {
                         });
             }
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -91,7 +99,10 @@ module.exports = class AdminItemController {
             res.redirect("../items");
             //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -100,7 +111,10 @@ module.exports = class AdminItemController {
             await ItemService.deleteItem(req.body.id);
             res.redirect("../items");
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }
