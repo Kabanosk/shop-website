@@ -9,7 +9,7 @@ router.get("/update", UserController.renderAddingForm)
 router.get("/search", UserController.renderSearchedPage);
 
 
-router.post("/search/", UserController.handleSearchPost);
+router.post("/search", UserController.handleSearchPost);
 router.post("/update", UserController.updateUser);
 router.post("/delete", UserController.deleteUser);
 

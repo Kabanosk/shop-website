@@ -27,7 +27,6 @@ module.exports = class UserService{
     static async tryRegister(email, pass, name, surname){
         try {
             const checkUser = await User.find({email : email});
-            console.log(checkUser);
             if (checkUser.length > 0)
                 throw new AuthenticationError("Email is already registered.", StatusCodes.FORBIDDEN);
 

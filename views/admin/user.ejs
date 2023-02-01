@@ -54,6 +54,14 @@
             <label for="surname" class="form-label">Surname</label>
             <input type="surname" name="surname" class="form-control" value="<%= user.surname %>">
         </div>
+        <div class="mb-3 w-50">
+            <label for="isAdmin" class="form-label">Is User Admin</label>
+            <% if (user.isAdmin) { %>
+                <input type="checkbox" name="isAdmin" value="Yes" checked>
+            <% } else { %>
+                <input type="checkbox" name="isAdmin" value="No"> 
+            <% } %>
+        </div>
 
         <button type="submit" class="btn btn-primary">Accept</button>
     </form>

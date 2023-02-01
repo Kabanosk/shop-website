@@ -5,6 +5,10 @@ const HttpError = require("../../errors/GenericErrors").HttpError;
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
         try {
+            if(!req.session.user || !req.session.user.isAdmin) {
+                res.redirect('../../');
+                return;
+            }
             const orders = await OrderService.getAllOrders();
             if(!orders){
                 throw Error("Error 404: could not find any orders.")

@@ -8,6 +8,10 @@ const HttpError = require("../../errors/GenericErrors").HttpError;
 module.exports = class AdminUserController {
     static async renderPage(req, res, next){
         try {
+            if(!req.session.user || !req.session.user.isAdmin) {
+                res.redirect('../../');
+                return;
+            }
             const users = await UserService.getAllUsers();
             if(!users){
                 throw Error("Error 404: could not find any users.")
@@ -73,7 +77,8 @@ module.exports = class AdminUserController {
             const up_user = {
                 name: req.body.name,
                 surname: req.body.surname,
-                user_email: req.body.user_email,
+                email: req.body.email,
+                isAdmin: Boolean(req.body.isAdmin)
             };
             await UserService.updateUser(req.body.id, up_user)
             res.redirect("../users");
