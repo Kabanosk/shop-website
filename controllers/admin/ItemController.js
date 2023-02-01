@@ -32,7 +32,10 @@ module.exports = class AdminItemController {
             let filteredItems = await ItemService.getItemsByPhrase(phrase);
             res.render("admin/items", { items: filteredItems});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -41,7 +44,10 @@ module.exports = class AdminItemController {
             let searchPhrase = req.body.phrase;
             res.redirect("/admin/items/search/" + searchPhrase);
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -80,8 +86,7 @@ module.exports = class AdminItemController {
                 },
                 req.body.price
             );
-            res.redirect("../"); // TODO ustalić co robimy pod dodaniu (idziemy do tyłu o jeden itp itd)
-            //res.render("admin/item", {item: undefined, action: "add", msg: "Image added successfully"});
+            res.redirect("../items");
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
@@ -108,7 +113,6 @@ module.exports = class AdminItemController {
             };
             await ItemService.updateItem(req.body.id, updated_item)
             res.redirect("../items");
-            //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});

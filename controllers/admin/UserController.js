@@ -45,7 +45,10 @@ module.exports = class AdminUserController {
             let searchPhrase = req.body.searchbar;
             res.redirect("/admin/users/search/" + searchPhrase);
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 

@@ -3,8 +3,8 @@ const router = express.Router();
 const MainPageController = require("../controllers/MainPageController")
 
 router.get("/", MainPageController.openMainPage);
-router.post("/", MainPageController.selectMainPageOption);
-
 router.get("/search/:phrase", MainPageController.searchForItem);
+
+router.post("/", MainPageController.selectMainPageOption);
 
 module.exports = router;
