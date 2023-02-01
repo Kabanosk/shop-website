@@ -54,7 +54,7 @@ module.exports = class ItemService{
 
     static async updateItem(_id, updated_item) {
         try {
-            Item.findByIdAndUpdate(_id, updated_item);
+            await Item.findByIdAndUpdate(_id, updated_item);
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
@@ -63,7 +63,7 @@ module.exports = class ItemService{
 
     static async deleteItem(_id) {
         try {
-            Item.findByIdAndDelete(_id);
+            await Item.findByIdAndDelete(_id);
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error

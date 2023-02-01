@@ -5,21 +5,30 @@
     <title><%= action %> Item</title>
 </head>
 <body>
-    <form method="post" action="/admin/item/<%= action %>">
-        <!-- TODO: Dodać input na zdjęcie -->
-        <label>
-            Name: <input type="text" name="name" value="<%= (typeof item === undefined) ? item.name : ''%>">
+    <form method="post" action="/admin/items/<%= action %>" enctype="multipart/form-data">
+        <label for="image">
+            Upload Image: <input type="file" id="image" name="image" value="" required>
         </label>
         <label>
-            Description: <input type="text" name="desc" value="<%= (typeof item === undefined) ? item.desc : ''%>">
+            Name: <input type="text" name="name" value="<%= (item !== undefined) ? item.name : ''%>">
         </label>
         <label>
-            Price: <input type="number" name="price" value="<%= (typeof item === undefined) ? item.price : ''%>">
+            Description: <input type="text" name="desc" value="<%=  (item !== undefined) ? item.desc : ''%>">
         </label>
         <label>
-            Quantity: <input type="number" name="quantity" value="<%= (typeof item === undefined) ? item.quantity : ''%>">
+            Price: <input type="number" name="price" value="<%= (item !== undefined) ? item.price : ''%>">
         </label>
-        <input type="submit" value="Accept">
+        <label>
+            Quantity: <input type="number" name="quantity" value="<%= (item !== undefined) ? item.quantity : ''%>">
+        </label>
+        <input type="text" id="id" name="id" value="<%= (item !== undefined) ? item._id : ''%>" hidden>
+        <input type="submit" value="<%= (action == 'add') ? "Add" : "Update" %>">
     </form>
+    <% if (action == 'update') { %>
+    <form method="post" action="/admin/items/delete">
+        <input type="text" id="id" name="id" value="<%= (item !== undefined) ? item._id : ''%>" hidden>
+        <input type="submit" value="Delete">
+    </form>
+    <% } %>
 </body>
 </html>

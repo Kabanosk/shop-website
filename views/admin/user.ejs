@@ -5,21 +5,28 @@
     <title><%= action %>User</title>
 </head>
 <body>
-    <form method="post" action="/admin/user/<%= action %>">
-        <!-- TODO: Dodać input na zdjęcie -->
+    <form method="post" action="/admin/users/update">
+        <% for (var i = 0; i < items.length; i++) { %>
+            <% let item = items[i] %>
+            <div style="float: left"><%= item.name %></div><br>
+            <div style="float: left"><%= item.price %></div>
+            <div style="clear: both; margin-bottom: 10px"></div>        
+        <% } %>
         <label>
-            Name: <input type="text" name="name" value="<%= (typeof user === undefined) ? user.name : ''%>">
+            Name: <input type="text" name="name" value="<%= (user !== undefined) ? user.name : ''%>">
         </label>
         <label>
-            Surname: <input type="text" name="surname" value="<%= (typeof user === undefined) ? user.surname : ''%>">
+            Surname: <input type="text" name="surname" value="<%= (user !== undefined) ? user.surname : ''%>">
         </label>
         <label>
-            Email: <input type="text" name="email" value="<%= (typeof user === undefined) ? user.email : ''%>">
+            Email: <input type="text" name="email" value="<%= (user !== undefined) ? user.email : ''%>">
         </label>
-        <label>
-            Password: <input type="password" name="password" value="<%= (typeof user === undefined) ? user.password : ''%>">
-        </label>
-        <input type="submit" value="Accept">
+        <input type="text" id="id" name="id" value="<%= (user !== undefined) ? user._id : ''%>" hidden>
+        <input type="submit" value="Update">
+    </form>
+    <form method="post" action="/admin/users/delete">
+        <input type="text" id="id" name="id" value="<%= (user !== undefined) ? user._id : ''%>" hidden>
+        <input type="submit" value="Delete">
     </form>
 </body>
 </html>

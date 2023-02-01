@@ -52,7 +52,7 @@ module.exports = class OrderService{
 
     static async updateOrder(_id, updated_order) {
         try {
-            Order.findByIdAndUpdate(_id, updated_order);
+            await Order.findByIdAndUpdate(_id, updated_order);
         } catch (error) {
             console.log(`Could not fetch orders ${error}`)
             throw error
@@ -61,7 +61,7 @@ module.exports = class OrderService{
 
     static async deleteOrder(_id) {
         try {
-            Order.findByIdAndDelete(_id);
+            await Order.findByIdAndDelete(_id);
         } catch (error) {
             console.log(`Could not fetch orders ${error}`)
             throw error

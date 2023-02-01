@@ -28,13 +28,20 @@
 </div>
 <div class="content">
     <% items.forEach((item) => { %>
-        <div class="user">
-            <div class="id"><% item.id %></div>
-            <div class="name"><%= item.name %></div>
-            <div class="amount"><%= item.amount %></div>
-            <div class="prince"><%= item.price %></div>
-        </div>
+        <form action="/admin/items/update/<%=item.id%>" method="get">
+            <div class="item">
+                <div class="id"><% item.id %></div>
+                <div class="name"><%= item.name %></div>
+                <div class="amount"><%= item.amount %></div>
+                <div class="prince"><%= item.price %></div>
+            </div>
+            <input type="submit" value="EditItem">
+        </form>
     <% }) %>
+    </br>
+    <form action="/admin/items/add" method="get">
+        <input type="submit" value="AddItem">
+    </form>
 </div>
 </body>
 </html>

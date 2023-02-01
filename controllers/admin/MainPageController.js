@@ -8,7 +8,7 @@ module.exports = class AdminMainController {
     static async renderPage(req, res, next){
         try {
             const users = await UserService.getAllUsers();
-            if(!items){
+            if(!users){
                 throw Error("Error 404: could not find any users.")
             }
             res.render("admin/users", {

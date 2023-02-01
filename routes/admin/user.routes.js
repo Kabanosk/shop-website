@@ -5,11 +5,10 @@ const upload = require("../../model/LocalStorage")
 const UserController = require("../../controllers/admin/UserController")
 
 router.get("/", UserController.renderPage);
-router.get("/add", UserController.renderAddingForm);
+router.get("/update/:user_id", UserController.renderAddingForm)
 router.get("/search/:phrase", UserController.renderSearchedPage);
 
-router.post("/add", UserController.addUser);
-router.put("/update", UserController.updateUser);
-router.delete("/delete", UserController.deleteUser);
+router.post("/update", UserController.updateUser);
+router.post("/delete", UserController.deleteUser);
 
 module.exports = router;

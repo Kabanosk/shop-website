@@ -1,5 +1,6 @@
 const OrderService = require("../../services/OrderService");
-const HttpError = require("../errors/GenericErrors").HttpError;
+const ItemService = require("../../services/ItemService");
+const HttpError = require("../../errors/GenericErrors").HttpError;
 
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
@@ -21,17 +22,14 @@ module.exports = class AdminOrderController {
 
     static async renderAddingForm(req, res, next){
         try {
-            const order = await OrderService.getOrderById(res, req, next);
-            if(!order){
-                res.render("admin/order", {
-                    action: "add"
-                });
-            } else {
-                res.render("admin/order", {
-                    order: order,
-                    action: "update"
-                });
-            }
+            const orderToEdit = await OrderService.getOrderById(req.params.order_id);
+            let cart = orderToEdit.products;
+            let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
+            res.render("admin/order", {
+                        items: cartItems,
+                        order: orderToEdit,
+                        action: "update"
+                    });
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
@@ -40,41 +38,25 @@ module.exports = class AdminOrderController {
         }
     }
 
-    static async addOrder(req, res, next){
-        try {
-            await OrderService.addOrder( //TODO: Jak dodać liste produktów
-                [],
-                req.body.date,
-                req.body.price,
-                req.body.user_email,
-            );
-
-            res.render("admin/order", {action: "add", msg: "Image added successfully"});
-        } catch (error) {
-            if(error instanceof HttpError)
-                res.status(error.status_code).json({error: error.message});
-            else
-                throw error;
-        }
-    }
 
     static async updateOrder(req, res, next) {
         try {
-            const order = OrderService.getOrderById(req, res, next);
+            const order = OrderService.getOrderById(req.body.id);
+            console.log(order);
             if (!order) {
-                throw Error("404! Order not found");
+                throw Error("404! Item not found");
             }
-
             const updated_order = {
-                id: order.id,
-                products: order.products,
-                date: req.body.date,
+                id: req.body.id,
                 user_email: req.body.user_email,
-                price: req.body.price
+                date: req.body.date,
+                price: req.body.price,
+               
             };
-
-            await OrderService.updateOrder(order.id, updated_order)
-            res.render("admin/order", {order: updated_order, action: "update", msg: "Image updated successfully"});
+            console.log(updated_order);
+            await OrderService.updateOrder(req.body.id, updated_order)
+            res.redirect("../orders");
+            //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
@@ -85,10 +67,8 @@ module.exports = class AdminOrderController {
 
     static async deleteOrder(req, res, next) {
         try {
-            const order = OrderService.getOrderById(req, res, next);
-
-            await OrderService.deleteOrder(order.id);
-            res.render("admin/orders", {orders: OrderService.getAllOrders(), msg: "Image deleted successfully"});
+            await OrderService.deleteOrder(req.body.id);
+            res.redirect("../orders");
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
