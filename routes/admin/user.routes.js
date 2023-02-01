@@ -6,7 +6,7 @@ const UserController = require("../../controllers/admin/UserController")
 
 router.get("/", UserController.renderPage);
 router.get("/add", UserController.renderAddingForm);
-router.get("/search/:phrase", UserController.renderSearchedPage);
+router.get("/search", UserController.renderSearchedPage);
 
 router.post("/add", UserController.addUser);
 router.put("/update", UserController.updateUser);

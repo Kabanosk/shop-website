@@ -2,38 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Orders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopping website</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<nav>
-    <form action="/admin" method="post">
-        <input type="submit" value="USERS" name="users">
-    </form>
-    <form action="/admin" method="post">
-        <input type="submit" value="ITEMS" name="items">
-    </form>
-    <form action="/admin" method="post">
-        <input type="submit" value="ORDERS" name="orders">
-    </form>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Main button -->
+        <form action="/admin/items/" method="get">
+            <a class="navbar-brand" style="cursor: pointer;" onclick="this.closest('form').submit();return false;">Shopping website: Admin view</a>
+        </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <form action="/admin/users/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Users</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/orders/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Orders</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/items/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Items</button>
+                </form>
+            </li>
+        </ul>
+        <div class="p-3"></div>
+        <form action="/admin/orders/add" method="post">
+            <button type="submit" class="btn btn-primary">Add order</button>
+        </form>
+        </div>
+    </div>
 </nav>
 
-<div class="searchBar">
-    <form action="/admin" method="post">
-        <label>
-            Search:
-            <input type="text" name="searchbar">
-        </label>
-        <input type="submit" value="Search">
-    </form>
-</div>
+<h1 class="pt-3" style="text-align: center;"> Orders </h1>
+
 <div class="content">
     <% orders.forEach((order) => { %>
-        <div class="user">
-            <div class="id"><% order.id %></div>
-            <div class="date"><%= order.date %></div>
-            <div class="price"><%= order.price %></div>
-            <div class="user"><%= order.userId %></div>
-        </div>
+        <%- include('partials/order.ejs', {order: order}) %>
     <% }) %>
 </div>
 </body>

@@ -6,7 +6,7 @@ const ItemController = require("../../controllers/admin/ItemController")
 
 router.get("/", ItemController.renderPage);
 router.get("/add", ItemController.renderAddingForm);
-router.get("/search/:phrase", ItemController.renderSearchedPage);
+router.get("/search", ItemController.renderSearchedPage);
 
 router.post("/add", ItemController.addItem);
 router.put("/update", ItemController.updateItem);

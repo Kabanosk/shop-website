@@ -5,7 +5,6 @@
     <title>Title</title>
     <script>
         async function DeleteFromCart(itemID){
-
             var response = await fetch('/cart', {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({item_id: itemID}),
@@ -14,8 +13,6 @@
             var responseText = await response.text();
 
             window.location.reload();
-
-           
         }
     </script>
 </head>
