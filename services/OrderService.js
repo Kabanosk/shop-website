@@ -19,22 +19,23 @@ module.exports = class OrderService{
         }
     }
 
-    static async getOrdersByDate(date){
+    static async getOrdersByEmail(userEmail){
         try {
-            return await Order.find({date: date});
+            return await Order.find({user_email: userEmail});
         } catch (error) {
             console.log(`Could not fetch orders ${error}`)
             throw error
         }
     }
 
-    static async addOrder(products, date, price, user_email){
+    static async addOrder(products, date, price, user_email, order_status){
         try {
             let obj = {
                 products: products,
                 date: date,
                 price: price,
                 user_email: user_email,
+                orderStatus: order_status
             }
             Order.create(obj, (err, order) => {
                 if (err) {

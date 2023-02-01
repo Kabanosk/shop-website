@@ -1,6 +1,8 @@
 const { read } = require("fs");
 const { AuthenticationError } = require("../errors/GenericErrors");
 const UserService = require("../services/UserService");
+const ItemService = require('../services/ItemService')
+const OrderService = require("../services/OrderService");
 const HttpError = require("../errors/GenericErrors").HttpError;
 
 module.exports = class UserController{
@@ -10,11 +12,16 @@ module.exports = class UserController{
             if (!user) {
                 res.redirect("/users/login");
             }
-            else{
+            else {
+                let userOrders = await OrderService.getOrdersByEmail(user.email);
+                let ordersCart = await Promise.all(userOrders.map(async (order) => await Promise.all(order.products.map(async (x) => await ItemService.getItembyId(x)))));
+
                 res.render("profile", {
                     email: user.email,
                     name: user.name,
-                    surname: user.surname
+                    surname: user.surname,
+                    orders: userOrders,
+                    carts: ordersCart
                 });
             }
         } catch (error) {
