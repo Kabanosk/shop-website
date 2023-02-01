@@ -1,7 +1,6 @@
 const OrderService = require("../../services/OrderService");
 const ItemService = require("../../services/ItemService");
 const HttpError = require("../../errors/GenericErrors").HttpError;
-
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
         try {
@@ -13,8 +12,13 @@ module.exports = class AdminOrderController {
             if(!orders){
                 throw Error("Error 404: could not find any orders.")
             }
+            const ordersCart = await Promise.all(orders.map(async (order) => await Promise.all(order.products.map(async (x) => await ItemService.getItembyId(x)))));
+
+            
+            
             res.render("admin/orders", {
-                orders: orders
+                orders: orders,
+                items: ordersCart
             });
         } catch (error) {
             if(error instanceof HttpError)
