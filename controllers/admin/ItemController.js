@@ -21,11 +21,22 @@ module.exports = class AdminItemController {
         }
     }
 
+
     static async renderSearchedPage(req, res, next) {
         try{
             let phrase = req.params.phrase;
             let filteredItems = await ItemService.getItemsByPhrase(phrase);
             res.render("admin/items", { items: filteredItems});
+        } catch (error) {
+            res.status(500).json({error: error});
+        }
+    }
+
+    static async handleSearchPost(req, res, next) {
+        try{
+            console.log("eeee");
+            let searchPhrase = req.body.searchbar;
+            res.redirect("/admin/items/search/" + searchPhrase);
         } catch (error) {
             res.status(500).json({error: error});
         }

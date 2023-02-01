@@ -36,6 +36,15 @@ module.exports = class AdminUserController {
         }
     }
 
+    static async handleSearchPost(req, res, next) {
+        try{
+            let searchPhrase = req.body.searchbar;
+            res.redirect("/admin/users/search/" + searchPhrase);
+        } catch (error) {
+            res.status(500).json({error: error});
+        }
+    }
+
     static async renderAddingForm(req, res, next){
         try {
             const userToEdit = await UserService.getUserById(req.query.user_id);

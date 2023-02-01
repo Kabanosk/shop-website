@@ -24,10 +24,7 @@ module.exports = class AdminMainController {
 
     static async redirectPage(req, res, next) {
         try {
-            if (req.body.searchbar) {
-                let searchPhrase = req.body.searchbar;
-                res.redirect("/admin/users/" + searchPhrase);
-            } else if (req.body.users) {
+            if (req.body.users) {
                 res.redirect("/admin/users");
             } else if (req.body.items) {
                 res.redirect("/admin/items");
