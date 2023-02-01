@@ -1,6 +1,7 @@
 const UserService = require("../../services/UserService");
 const path = require("path");
 const fs = require('fs');
+const HttpError = require("../errors/GenericErrors").HttpError;
 
 module.exports = class AdminUserController {
     static async renderPage(req, res, next){
@@ -13,7 +14,10 @@ module.exports = class AdminUserController {
                 users: users
             });
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -23,7 +27,10 @@ module.exports = class AdminUserController {
             let filteredUsers = await UserService.getUsersByPhrase(phrase);
             res.render("admin/users", { users: filteredUsers});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -41,7 +48,10 @@ module.exports = class AdminUserController {
                 });
             }
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -57,7 +67,10 @@ module.exports = class AdminUserController {
 
             res.render("admin/user", {action: "add", msg: "User added successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -80,7 +93,10 @@ module.exports = class AdminUserController {
             await UserService.updateUser(user.id, updated_user)
             res.render("admin/user", {user: updated_user, action: "update", msg: "User updated successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -91,7 +107,10 @@ module.exports = class AdminUserController {
             await UserService.deleteUser(user.id);
             res.render("admin/users", {users: UserService.getAllUsers(), msg: "User deleted successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }

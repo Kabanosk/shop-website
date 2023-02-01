@@ -1,4 +1,5 @@
 const OrderService = require("../../services/OrderService");
+const HttpError = require("../errors/GenericErrors").HttpError;
 
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
@@ -11,7 +12,10 @@ module.exports = class AdminOrderController {
                 orders: orders
             });
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -29,7 +33,10 @@ module.exports = class AdminOrderController {
                 });
             }
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -44,7 +51,10 @@ module.exports = class AdminOrderController {
 
             res.render("admin/order", {action: "add", msg: "Image added successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -66,7 +76,10 @@ module.exports = class AdminOrderController {
             await OrderService.updateOrder(order.id, updated_order)
             res.render("admin/order", {order: updated_order, action: "update", msg: "Image updated successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -77,7 +90,10 @@ module.exports = class AdminOrderController {
             await OrderService.deleteOrder(order.id);
             res.render("admin/orders", {orders: OrderService.getAllOrders(), msg: "Image deleted successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 }
