@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Main button -->
+        <form action="/" method="get">
+            <a class="navbar-brand" style="cursor: pointer;" onclick="this.closest('form').submit();return false;">Shopping website</a>
+        </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <form action="/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Home</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/" method="post">
+                    <button type="submit" value="Profile" name="profile" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Profile</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/cart/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Cart</button>
+                </form>
+            </li>
+        </ul>
+        <form action="/" method="post" class="d-flex">
+            <input class="form-control me-2" type="search" name="searchbar" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
+    </div>
+</nav>
