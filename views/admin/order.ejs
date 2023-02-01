@@ -5,17 +5,28 @@
     <title><%= action %> Order</title>
 </head>
 <body>
-<form method="post" action="/admin/order/<%= action %>">
+<form method="post" action="/admin/orders/update">
+    <% for (var i = 0; i < items.length; i++) { %>
+        <% let item = items[i] %>
+        <div style="float: left"><%= item.name %></div><br>
+        <div style="float: left"><%= item.price %></div>
+        <div style="clear: both; margin-bottom: 10px"></div>        
+    <% } %>
     <label>
-    User Email: <input type="email" name="user_email" value="<%= (typeof order === undefined) ? order.user_email : ''%>">
+    User Email: <input type="email" name="user_email" value="<%= (order !== undefined) ? order.user_email : ''%>">
     </label>
     <label>
-    Date: <input type="date" name="date" value="<%= (typeof order === undefined) ? order.date : ''%>">
+    Date: <input type="datetime-local" name="date" value="<%= (order !== undefined) ? order.date.toJSON().slice(0,19) : ''%>">
     </label>
     <label>
-    Price: <input type="number" name="price" value="<%= (typeof order === undefined) ? order.price : ''%>">
+    Price: <input type="number" name="price" value="<%= (order !== undefined) ? order.price : ''%>">
     </label>
-    <input type="submit" value="Accept">
+    <input type="text" id="id" name="id" value="<%= (order !== undefined) ? order._id : ''%>" hidden>
+    <input type="submit" value="Update">
+</form>
+<form method="post" action="/admin/orders/delete">
+    <input type="text" id="id" name="id" value="<%= (order !== undefined) ? order._id : ''%>" hidden>
+    <input type="submit" value="Delete">
 </form>
 </body>
 </html>
