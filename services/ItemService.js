@@ -45,7 +45,11 @@ module.exports = class ItemService{
 
     static async getItemsByPhrase(phrase){
         try {
-            return await Item.find({name: phrase});
+            var regex = new RegExp(phrase);
+
+            return await Item.find({"$or": [
+                {name: { $regex: regex }},
+                {desc: { $regex: regex }}]});
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error

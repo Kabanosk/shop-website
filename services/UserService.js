@@ -62,7 +62,11 @@ module.exports = class UserService{
 
     static async getUsersByPhrase(phrase) {
         try {
-            return await User.find({name: phrase});
+            var regex = new RegExp(phrase);
+
+            return await User.find({"$or": [
+                {name: { $regex: regex }},
+                {surname: { $regex: regex }}]});
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error

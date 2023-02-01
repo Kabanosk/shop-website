@@ -20,6 +20,26 @@ module.exports = class AdminOrderController {
         }
     }
 
+    static async renderSearchedPage(req, res, next) {
+        try{
+            let phrase = req.params.phrase;
+            let filteredItems = await OrderService.getOrdersByDate(phrase);
+            res.render("admin/orders", { orders: filteredItems});
+        } catch (error) {
+            res.status(500).json({error: error});
+        }
+    }
+
+
+    static async handleSearchPost(req, res, next) {
+        try{
+            let searchPhrase = req.body.searchbar;
+            res.redirect("/admin/orders/search/" + searchPhrase);
+        } catch (error) {
+            res.status(500).json({error: error});
+        }
+    }
+
     static async renderAddingForm(req, res, next){
         try {
             const orderToEdit = await OrderService.getOrderById(req.params.order_id);
