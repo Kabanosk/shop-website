@@ -1,6 +1,8 @@
+<% if(!locals.cart){ %>
 <form action="/items/<%= item.id %>" method="get">
+  <% } %>
 <div class="d-flex flex-grow-1 justify-content-center align-items-center">
-<div class="w-50 card mb-3" style="cursor: pointer; height: 200px" onclick="this.closest('form').submit()">
+<div class="w-50 card mb-3" style="<% if(!locals.cart){ %> cursor: pointer; <% } %> height: 200px" <% if(!locals.cart){ %> onclick="this.closest('form').submit()" <% } %>>
     <div class="h-100 row g-0">
       <div class="h-100 col-md-4 d-flex justify-content-center align-items-center">
         <img class="h-100 img-fluid rounded-start" src="data:image/<%=item.img.contentType%>;base64,
@@ -11,9 +13,15 @@
           <h5 class="card-title"><%= item.name %></h5>
           <p class="card-text"><%= item.desc %></p>
           <p class="card-text"><small class="text-muted">Price: <%= item.price %></small></p>
+
+          <% if(locals.cart){%>
+              <input class="btn btn-primary" type="submit" value="Delete From Cart" name="deleteFromCart" onclick="DeleteFromCart('<%= item._id %>');">
+          <% } %>
         </div>
       </div>
     </div>
   </div>
 </div>
-</form>
+<% if(!locals.cart){ %>
+  </form>
+<% } %>

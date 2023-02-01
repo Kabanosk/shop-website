@@ -2,31 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= action %>User</title>
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <form method="post" action="/admin/users/update">
-        <% for (var i = 0; i < items.length; i++) { %>
-            <% let item = items[i] %>
-            <div style="float: left"><%= item.name %></div><br>
-            <div style="float: left"><%= item.price %></div>
-            <div style="clear: both; margin-bottom: 10px"></div>        
-        <% } %>
-        <label>
-            Name: <input type="text" name="name" value="<%= (user !== undefined) ? user.name : ''%>">
-        </label>
-        <label>
-            Surname: <input type="text" name="surname" value="<%= (user !== undefined) ? user.surname : ''%>">
-        </label>
-        <label>
-            Email: <input type="text" name="email" value="<%= (user !== undefined) ? user.email : ''%>">
-        </label>
-        <input type="text" id="id" name="id" value="<%= (user !== undefined) ? user._id : ''%>" hidden>
-        <input type="submit" value="Update">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Main button -->
+        <form action="/admin/items/" method="get">
+            <a class="navbar-brand" style="cursor: pointer;" onclick="this.closest('form').submit();return false;">Shopping website: Admin view</a>
+        </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <form action="/admin/users/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Users</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/orders/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Orders</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/items/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Items</button>
+                </form>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="w-75 p-5 d-flex flex-column min-vw-100">
+    <form action="/admin/users/update" method="post" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
+        <input type="hidden" id="id" name="id" value="<%= user._id %>">
+        <div class="mb-3 w-50">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= user.email %>">
+        </div>
+        <div class="mb-3 w-50">
+            <label for="name" class="form-label">Name</label>
+            <input type="name"  name="name" class="form-control" value="<%= user.name %>">
+        </div>
+        <div class="mb-3 w-50">
+            <label for="surname" class="form-label">Surname</label>
+            <input type="surname" name="surname" class="form-control" value="<%= user.surname %>">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Accept</button>
     </form>
-    <form method="post" action="/admin/users/delete">
-        <input type="text" id="id" name="id" value="<%= (user !== undefined) ? user._id : ''%>" hidden>
-        <input type="submit" value="Delete">
-    </form>
+</div>
+
+<script
+src="../js/bootstrap.min.js"
+></script>
+<script
+src="../js/jquery.slim.min.js"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+crossorigin="anonymous"
+></script>
+
 </body>
 </html>

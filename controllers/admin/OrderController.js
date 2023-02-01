@@ -62,7 +62,6 @@ module.exports = class AdminOrderController {
     static async updateOrder(req, res, next) {
         try {
             const order = OrderService.getOrderById(req.body.id);
-            console.log(order);
             if (!order) {
                 throw Error("404! Item not found");
             }
@@ -73,7 +72,6 @@ module.exports = class AdminOrderController {
                 price: req.body.price,
                
             };
-            console.log(updated_order);
             await OrderService.updateOrder(req.body.id, updated_order)
             res.redirect("../orders");
             //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});

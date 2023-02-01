@@ -1,0 +1,20 @@
+<div class="p-2 d-flex flex-grow-1 justify-content-center align-items-center">
+<div class="w-50 card mb-3" style="cursor: pointer;" onclick="this.closest('form').submit()">
+    <div class="h-50 row g-0">
+        <div class="col-md-8">
+            <div class="card-body">
+                <p class="card-title">Order ID:   <%= order.id %><br>
+                User email:     <%= order.user_email %><br>
+                Order date:  <%= order.date %><br>
+                Order price: <%= order.price %></p>
+            </div>
+            <div class="d-flex flew-grow-2">
+                <form action="/admin/orders/delete" method="post" class="p-2">
+                    <input type="hidden" id="id" name="id" value="<%= order._id %>">
+                    <button class="btn btn-primary">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

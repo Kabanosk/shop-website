@@ -12,8 +12,14 @@
 
 <div class="w-75 p-5 d-flex flex-column min-vw-100">
     <%- include('partials/item_miniature', {item: item}) %>
-    <form action="/items/<%=item.id%>" method="post" class="d-flex flex-grow-1 justify-content-center align-items-center">
+    <form onsubmit="alert('Item added to cart')" action="/items/<%=item.id%>" method="post" class="d-flex flex-grow-1 justify-content-center align-items-center">
         <button type="submit" class="btn btn-primary">Add to cart</button>
+
+        <% if(locals.addedToCart){ %>
+            <div class="alert alert-success" role="alert">
+                Item has been added to your cart!
+              </div>
+        <% } %>
     </form>
 </div>
 

@@ -46,7 +46,7 @@ module.exports = class AdminItemController {
         try {
             if(!req.params.item_id)
             {
-                res.render("admin/item", {
+                res.render("admin/newitem", {
                     item: undefined,
                     action: "add"
                 });

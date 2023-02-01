@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your cart</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script>
         async function DeleteFromCart(itemID){
-
             var response = await fetch('/cart', {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({item_id: itemID}),
@@ -14,37 +16,50 @@
             var responseText = await response.text();
 
             window.location.reload();
-
-           
         }
     </script>
 </head>
 <body>
-<nav>
 
-</nav>
+<%- include('partials/navbar.ejs') %>
+
+<h1 class="pt-3" style="text-align: center;"> Your cart </h1>
 
 <div class="content">
     <div class="cart-items">
-        <% for (var i = 0; i < items.length; i++) { %>
-            
-                <% let item = items[i] %>
-                <img src="data:image/<%=item.img.contentType%>;base64,
-                    <%=item.img.data.toString('base64')%>" height="200px" width="200px">
-                <div style="float: left"><%= item.name %></div><br>
-                <div style="float:left"><%= item.desc %></div><br>
-                <div style="float: left"><%= item.price %></div>
-                <div style="clear: both; margin-bottom: 10px"></div>
+        <%
+        if (items.length <= 0){%>
 
-                <input type="submit" value="Delete From Cart" name="deleteFromCart" onclick="DeleteFromCart( <% item._id %> )">
-                
+        <h3 class="pt-3" style="text-align: center;"> Oops! Your cart appears to be empty!</h3>
+        <h3 class="pt-3" style="text-align: center;"> Visit the main page to find some exiciting items!</h3>
+
+        <%
+        }
+        else{%>
+            <div class="cart-items">
+            <% for (var i = 0; i < items.length; i++) { %>
+                <% let item = items[i] %>
+                <%- include('partials/item_miniature.ejs', {item: items[i], cart: true}) %>
+            </div>  
         <% } %>
-    </div>
-    <form action="/cart/checkout" method="post">
-        <input type="submit" value="Checkout">
-    </form>
+        </div> 
+        <form action="/cart/checkout" class="d-flex flex-grow-1 justify-content-center align-items-center" method="post">
+            <button type="submit" class="btn btn-primary">Checkout</button>
+        </form>
+    <%  } %>
 </div>
 
-<footer></footer>
+<script
+src="../js/bootstrap.min.js"
+></script>
+<script
+src="../js/jquery.slim.min.js"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+crossorigin="anonymous"
+></script>
+
 </body>
 </html>

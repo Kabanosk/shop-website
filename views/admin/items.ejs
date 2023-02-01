@@ -2,46 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Items</title>
+    <title>Admin - items</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<nav>
-    <form action="/admin" method="post">
-        <input type="submit" value="USERS" name="users">
-    </form>
-    <form action="/admin" method="post">
-        <input type="submit" value="ITEMS" name="items">
-    </form>
-    <form action="/admin" method="post">
-        <input type="submit" value="ORDERS" name="orders">
-    </form>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Main button -->
+        <form action="/admin/items/" method="get">
+            <a class="navbar-brand" style="cursor: pointer;" onclick="this.closest('form').submit();return false;">Shopping website: Admin view</a>
+        </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <form action="/admin/users/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Users</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/orders/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Orders</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form action="/admin/items/" method="get">
+                    <button type="submit" class="btn btn-link text-decoration-none" style="color: rgb(71, 68, 68);">Items</button>
+                </form>
+            </li>
+        </ul>
+        <form action="/admin/items/search" method="get" class="d-flex">
+            <input class="form-control me-2" type="search" name="phrase" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="p-3"></div>
+        <form action="/admin/items/add" method="get">
+            <button type="submit" class="btn btn-primary">Add item</button>
+        </form>
+        </div>
+    </div>
 </nav>
 
-<div class="searchBar">
-    <form action="/admin/items/search/" method="post">
-        <label>
-            Search:
-            <input type="text" name="searchbar">
-        </label>
-        <input type="submit" value="Search">
-    </form>
-</div>
+<h1 class="pt-3" style="text-align: center;"> Items </h1>
+
 <div class="content">
     <% items.forEach((item) => { %>
-        <form action="/admin/items/update/<%=item.id%>" method="get">
-            <div class="item">
-                <div class="id"><% item.id %></div>
-                <div class="name"><%= item.name %></div>
-                <div class="amount"><%= item.amount %></div>
-                <div class="prince"><%= item.price %></div>
-            </div>
-            <input type="submit" value="EditItem">
-        </form>
+        <%- include('partials/item.ejs', {item: item}) %>
     <% }) %>
-    </br>
-    <form action="/admin/items/add" method="get">
-        <input type="submit" value="AddItem">
-    </form>
 </div>
+
+<script
+src="../js/bootstrap.min.js"
+></script>
+<script
+src="../js/jquery.slim.min.js"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+crossorigin="anonymous"
+></script>
+
 </body>
 </html>

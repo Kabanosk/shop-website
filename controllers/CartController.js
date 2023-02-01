@@ -3,6 +3,8 @@ const UserService = require("../services/UserService");
 const OrderService = require("../services/OrderService")
 const path = require("path");
 const fs = require('fs');
+const { escapeSelector } = require("jquery");
+const status_codes = require('http-status-codes').StatusCodes;
 const HttpError = require("../errors/GenericErrors").HttpError;
 module.exports = class CartController{
     static async checkCart(req, res, next){
@@ -35,7 +37,11 @@ module.exports = class CartController{
                 finalPrice,
                 req.session.user.email
             );
-            res.end();
+            
+            req.session.cart = [];
+            req.session.save();
+
+            res.redirect('/');
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
@@ -47,7 +53,8 @@ module.exports = class CartController{
     static async goToCheckout(req, res, next){
         try{
             if (!req.session.cart || !req.session.user || req.session.cart.length == 0) {
-                throw Error("Cart is empty or user not logged"); // TODO add message in frontend
+                res.render('login', {error: new HttpError("Login before going to checkout.", status_codes.METHOD_NOT_ALLOWED)});
+                return;
             }
             let cartItems = await Promise.all(req.session.cart.map(async (x) => await ItemService.getItembyId(x)));
             res.render("checkout", {items: cartItems});
