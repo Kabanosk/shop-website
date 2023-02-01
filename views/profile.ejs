@@ -18,6 +18,14 @@
     <div class="mb-3 w-50">
         <h5>Your email: <%= email %></h5>
     </div>
+    <% for (var i = 0; i < orders.length; i++) { %>
+        Your order from: <%= orders[i].date %> with total cost of <%= orders[i].price %> containing:  <br>
+        <% for (var j = 0; j < carts[i].length; j++) { %>
+            <%= carts[i][j].name %> <%= carts[i][j].price %> <br>
+        <% } %>
+        Has a status: <%= orders[i].orderStatus %> <br> <br>
+
+    <% } %>
 </div>
 <form method="post" action="/users/profile/logout" class="d-flex flex-column flex-grow-1 align-items-center justify-content-center">
     <button type="submit" class="btn btn-primary">Logout</button>

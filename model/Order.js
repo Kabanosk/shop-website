@@ -8,7 +8,8 @@ const orderSchema = new Schema({
     user_email: {
         type: String,
         required: true,
-    }
+    },
+    orderStatus: String
 });
 
 module.exports = Order = mongoose.model("order", orderSchema);

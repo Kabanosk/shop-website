@@ -35,7 +35,8 @@ module.exports = class CartController{
                 req.session.cart,
                 new Date(),
                 finalPrice,
-                req.session.user.email
+                req.session.user.email,
+                'Open'
             );
             
             req.session.cart = [];

@@ -1,5 +1,6 @@
 const OrderService = require("../../services/OrderService");
 const ItemService = require("../../services/ItemService");
+const Order = require("../../model/Order");
 const HttpError = require("../../errors/GenericErrors").HttpError;
 module.exports = class AdminOrderController {
     static async renderPage(req, res, next){
@@ -38,6 +39,24 @@ module.exports = class AdminOrderController {
         }
     }
 
+    static async changeOrderStatus(req, res, next) {
+        try{
+            const order = OrderService.getOrderById(req.body.id);
+            if (!order) {
+                throw Error("404! Item not found");
+            }
+            const updated_order = {
+                orderStatus: req.body.orderStatus
+            };
+            await OrderService.updateOrder(req.body.id, updated_order)
+            res.redirect("../orders");
+        } catch (error) {
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
+        }
+    }
 
     static async handleSearchPost(req, res, next) {
         try{
