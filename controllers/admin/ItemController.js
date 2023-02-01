@@ -81,7 +81,7 @@ module.exports = class AdminItemController {
                 req.body.name,
                 req.body.desc,
                 {
-                    data: fs.readFileSync(path.resolve(__dirname, '../../') + '\\uploads\\' + req.file.filename),
+                    data: fs.readFileSync(path.resolve(__dirname, '..', '..', 'uploads', req.file.filename)),
                     contentType: 'image/png'
                 },
                 req.body.price
@@ -107,7 +107,7 @@ module.exports = class AdminItemController {
                 desc: req.body.desc,
                 price: req.body.price,
                 img: {
-                    data: fs.readFileSync(path.resolve(__dirname, '../../') + '\\uploads\\' + req.file.filename),
+                    data: fs.readFileSync(path.resolve(__dirname, '..', '..', 'uploads', req.file.filename)),
                     contentType: 'image/png'
                 },
             };
