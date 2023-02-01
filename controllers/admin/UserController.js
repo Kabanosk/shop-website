@@ -1,4 +1,6 @@
 const UserService = require("../../services/UserService");
+const ItemService = require("../../services/ItemService");
+
 const path = require("path");
 const fs = require('fs');
 
@@ -29,33 +31,15 @@ module.exports = class AdminUserController {
 
     static async renderAddingForm(req, res, next){
         try {
-            const user = await UserService.getUserById(res, req, next);
-            if(!user){
-                res.render("admin/user", {
-                    action: "add"
-                });
-            } else {
-                res.render("admin/user", {
-                    user: user,
-                    action: "update"
-                });
-            }
-        } catch (error) {
-            res.status(500).json({error: error})
-        }
-    }
+            const userToEdit = await UserService.getUserById(req.params.user_id);
+            let cart = userToEdit.cart;
+            let cartItems = await Promise.all(cart.map(async (x) => await ItemService.getItembyId(x)));
+            res.render("admin/user", {
+                items: cartItems,
+                user: userToEdit,
+                action: "update"
+            });
 
-    static async addUser(req, res, next){
-        try {
-            await UserService.addUser(
-                req.body.email,
-                req.body.name,
-                req.body.surname,
-                req.body.password,
-                req.body.cart
-            );
-
-            res.render("admin/user", {action: "add", msg: "User added successfully"});
         } catch (error) {
             res.status(500).json({error: error})
         }
@@ -63,22 +47,17 @@ module.exports = class AdminUserController {
 
     static async updateUser(req, res, next) {
         try {
-            const user = UserService.getUserById(req, res, next);
-            if (!user) {
+            const userToEdit = await UserService.getUserById(req.body.id);
+            if (!userToEdit) {
                 throw Error("404! User not found");
             }
-
-            const updated_user = {
-                id: user.id,
+            const up_user = {
                 name: req.body.name,
-                desc: req.body.desc,
-                price: req.body.price,
-                quantity: req.body.quantity,
-                img: req.body.image
+                surname: req.body.surname,
+                user_email: req.body.user_email,
             };
-
-            await UserService.updateUser(user.id, updated_user)
-            res.render("admin/user", {user: updated_user, action: "update", msg: "User updated successfully"});
+            await UserService.updateUser(req.body.id, up_user)
+            res.redirect("../users");
         } catch (error) {
             res.status(500).json({error: error})
         }
@@ -86,10 +65,8 @@ module.exports = class AdminUserController {
 
     static async deleteUser(req, res, next) {
         try {
-            const user = UserService.getUserById(req, res, next);
-
-            await UserService.deleteUser(user.id);
-            res.render("admin/users", {users: UserService.getAllUsers(), msg: "User deleted successfully"});
+            await UserService.deleteUser(req.body.id);
+            res.redirect("../users");
         } catch (error) {
             res.status(500).json({error: error})
         }

@@ -28,10 +28,13 @@
 </div>
 <div class="content">
     <% users.forEach((user) => { %>
+        <form action="/admin/users/update/<%=user.id%>" method="get">
         <div class="user">
             <div class="id"><% user.id %></div>
             <div class="name"><%= user.name %> <%= user.surname %></div>
         </div>
+        <input type="submit" value="EditUser">
+        </form>
     <% }) %>
 </div>
 </body>

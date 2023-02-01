@@ -2,6 +2,8 @@ const ItemService = require("../../services/ItemService");
 const path = require("path");
 const fs = require('fs');
 
+const HttpError = require("../../errors/GenericErrors").HttpError;
+
 module.exports = class AdminItemController {
     static async renderPage(req, res, next){
         try {
@@ -29,16 +31,19 @@ module.exports = class AdminItemController {
 
     static async renderAddingForm(req, res, next){
         try {
-            const item = await ItemService.getItembyId(res, req, next);
-            if(!item){
+            if(!req.params.item_id)
+            {
                 res.render("admin/item", {
+                    item: undefined,
                     action: "add"
                 });
-            } else {
+            } else 
+            {
+                const itemToEdit = await ItemService.getItembyId(req.params.item_id);
                 res.render("admin/item", {
-                    item: item,
-                    action: "update"
-                });
+                            item: itemToEdit,
+                            action: "update"
+                        });
             }
         } catch (error) {
             res.status(500).json({error: error})
@@ -50,35 +55,41 @@ module.exports = class AdminItemController {
             await ItemService.addItem(
                 req.body.name,
                 req.body.desc,
-                req.body.image,
-                req.body.price,
-                req.body.quantity
+                {
+                    data: fs.readFileSync(path.resolve(__dirname, '../../') + '\\uploads\\' + req.file.filename),
+                    contentType: 'image/png'
+                },
+                req.body.price
             );
-
-            res.render("admin/item", {action: "add", msg: "Image added successfully"});
+            res.redirect("../"); // TODO ustalić co robimy pod dodaniu (idziemy do tyłu o jeden itp itd)
+            //res.render("admin/item", {item: undefined, action: "add", msg: "Image added successfully"});
         } catch (error) {
-            res.status(500).json({error: error})
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
     static async updateItem(req, res, next) {
         try {
-            const item = ItemService.getItembyId(req, res, next);
+            const item = ItemService.getItembyId(req.body.id);
             if (!item) {
                 throw Error("404! Item not found");
             }
-
             const updated_item = {
-                id: item.id,
+                id: req.body.id,
                 name: req.body.name,
                 desc: req.body.desc,
                 price: req.body.price,
-                quantity: req.body.quantity,
-                img: req.body.image
+                img: {
+                    data: fs.readFileSync(path.resolve(__dirname, '../../') + '\\uploads\\' + req.file.filename),
+                    contentType: 'image/png'
+                },
             };
-
-            await ItemService.updateItem(item.id, updated_item)
-            res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
+            await ItemService.updateItem(req.body.id, updated_item)
+            res.redirect("../items");
+            //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
             res.status(500).json({error: error})
         }
@@ -86,10 +97,8 @@ module.exports = class AdminItemController {
 
     static async deleteItem(req, res, next) {
         try {
-            const item = ItemService.getItembyId(req, res, next);
-
-            await ItemService.deleteItem(item.id);
-            res.render("admin/items", {items: ItemService.getAllItems(), msg: "Image deleted successfully"});
+            await ItemService.deleteItem(req.body.id);
+            res.redirect("../items");
         } catch (error) {
             res.status(500).json({error: error})
         }
