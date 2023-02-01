@@ -35,7 +35,12 @@ module.exports = class UserController{
                 throw error;
         }
     }
-
+    static async logoutProfile(req, res, next){
+        req.session.user = undefined;
+        req.session.cart = undefined;
+        req.session.save();
+        res.redirect("/");
+    }
     static async tryLogin(req, res, next){
         try{
             if (req.body["register"]) {
@@ -51,14 +56,22 @@ module.exports = class UserController{
                     _id: user._id,
                     email: user.email,
                     name: user.name,
-                    surname: user.surname
+                    surname: user.surname,
+                    isAdmin: user.isAdmin
                 };
                 if(!req.session.cart) {
                     req.session.cart = user.cart;
                 } else {
                     await UserService.updateUser(user._id, {cart : req.session.cart});
                 }
-                res.redirect("/");
+                if(user.isAdmin)
+                {
+                    res.redirect("/admin");
+                } else 
+                {
+                    res.redirect("/");
+                }
+                
             }
         } catch (error) {
             if(error instanceof AuthenticationError){
@@ -91,7 +104,8 @@ module.exports = class UserController{
                 _id: newUser._id,
                 email: newUser.email,
                 name: newUser.name,
-                surname: newUser.surname
+                surname: newUser.surname,
+                isAdmin: false
             };
             if(!req.session.cart) {
                 req.session.cart = [];

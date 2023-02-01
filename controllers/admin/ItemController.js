@@ -6,6 +6,10 @@ const HttpError = require("../../errors/GenericErrors").HttpError;
 module.exports = class AdminItemController {
     static async renderPage(req, res, next){
         try {
+            if(!req.session.user || !req.session.user.isAdmin) {
+                res.redirect('../../');
+                return;
+            }
             const items = await ItemService.getAllItems();
             if(!items){
                 throw Error("Error 404: could not find any items.")
@@ -34,8 +38,7 @@ module.exports = class AdminItemController {
 
     static async handleSearchPost(req, res, next) {
         try{
-            console.log("eeee");
-            let searchPhrase = req.body.searchbar;
+            let searchPhrase = req.body.phrase;
             res.redirect("/admin/items/search/" + searchPhrase);
         } catch (error) {
             res.status(500).json({error: error});
