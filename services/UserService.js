@@ -38,7 +38,8 @@ module.exports = class UserService{
                 salt : salt,
                 name: name,
                 surname: surname,
-                cart : []
+                cart : [],
+                isAdmin: false
             }
             let newUser = await User.create(obj);
             newUser.save();
@@ -61,11 +62,9 @@ module.exports = class UserService{
 
     static async getUsersByPhrase(phrase) {
         try {
-            var regex = new RegExp(phrase);
-
             return await User.find({"$or": [
-                {name: { $regex: regex }},
-                {surname: { $regex: regex }}]});
+                {name: { $regex: '(?i)' + phrase }},
+                {surname: { $regex: '(?i)' + phrase }}]});
         } catch (error) {
             console.log(`Could not fetch items ${error}`)
             throw error
@@ -88,7 +87,8 @@ module.exports = class UserService{
                 name: name,
                 surname: surname,
                 password: password,
-                cart: cart
+                cart: cart,
+                isAdmin: false
             }
 
             User.create(new_user, (err, item) => {
