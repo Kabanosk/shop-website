@@ -13,9 +13,6 @@ module.exports = class AdminOrderController {
                 throw Error("Error 404: could not find any orders.")
             }
             const ordersCart = await Promise.all(orders.map(async (order) => await Promise.all(order.products.map(async (x) => await ItemService.getItembyId(x)))));
-
-            
-            
             res.render("admin/orders", {
                 orders: orders,
                 items: ordersCart
@@ -34,7 +31,10 @@ module.exports = class AdminOrderController {
             let filteredItems = await OrderService.getOrdersByDate(phrase);
             res.render("admin/orders", { orders: filteredItems});
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -44,7 +44,10 @@ module.exports = class AdminOrderController {
             let searchPhrase = req.body.searchbar;
             res.redirect("/admin/orders/search/" + searchPhrase);
         } catch (error) {
-            res.status(500).json({error: error});
+            if(error instanceof HttpError)
+                res.status(error.status_code).json({error: error.message});
+            else
+                throw error;
         }
     }
 
@@ -82,7 +85,6 @@ module.exports = class AdminOrderController {
             };
             await OrderService.updateOrder(req.body.id, updated_order)
             res.redirect("../orders");
-            //res.render("admin/item", {item: updated_item, action: "update", msg: "Image updated successfully"});
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});

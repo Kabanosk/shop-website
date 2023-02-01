@@ -16,9 +16,7 @@ module.exports = class ItemController{
             if(req.session.user) {
                 await UserService.updateUser(req.session.user._id, {cart : req.session.cart});
             }
-            
             res.redirect('back');
-            //res.status(204).send(); // Return a 204 (No Content response)
         } catch (error) {
             if(error instanceof HttpError)
                 res.status(error.status_code).json({error: error.message});
