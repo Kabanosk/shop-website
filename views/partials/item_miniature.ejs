@@ -5,17 +5,23 @@
 <div class="w-50 card mb-3" style="<% if(!locals.cart){ %> cursor: pointer; <% } %> height: 200px" <% if(!locals.cart){ %> onclick="this.closest('form').submit()" <% } %>>
     <div class="h-100 row g-0">
       <div class="h-100 col-md-4 d-flex justify-content-center align-items-center">
+        <% if (item != null) { %>
         <img class="h-100 img-fluid rounded-start" src="data:image/<%=item.img.contentType%>;base64,
             <%=item.img.data.toString('base64')%>">
+        <% } %>
       </div>
+      <% let itemName = (item == null) ? "null" : item.name; %>
+      <% let itemDesc = (item == null) ? "null" : item.desc; %>
+      <% let itemPrice = (item == null) ? "null" : item.price; %>
+      <% let itemId = (item == null) ? "null" : item._id; %>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title"><%= item.name %></h5>
-          <p class="card-text"><%= item.desc %></p>
-          <p class="card-text"><small class="text-muted">Price: <%= item.price %></small></p>
+          <h5 class="card-title"><%= itemName %></h5>
+          <p class="card-text"><%= itemDesc %></p>
+          <p class="card-text"><small class="text-muted">Price: <%= itemPrice %></small></p>
 
           <% if(locals.cart){%>
-              <input class="btn btn-primary" type="submit" value="Delete From Cart" name="deleteFromCart" onclick="DeleteFromCart('<%= item._id %>');">
+              <input class="btn btn-primary" type="submit" value="Delete From Cart" name="deleteFromCart" onclick="DeleteFromCart('<%= itemId %>');">
           <% } %>
         </div>
       </div>
