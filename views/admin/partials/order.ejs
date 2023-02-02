@@ -9,7 +9,16 @@
                 Order price: <%= order.price %><br>
                 Order cart: <br>
                 <% for (var i = 0; i < cart.length; i++) { %>
-                    <%= cart[i].name %> <%= cart[i].price %> <br>
+                    <% if (cart !== undefined && cart[i] != null) { %> 
+                        <%= cart[i].name %> 
+                    <% } else { %>
+                        ITEM DELETED
+                    <% } %> 
+                    <% if (cart !== undefined && cart[i] != null) { %>
+                        <%= cart[i].price %> 
+                    <% } else { %>
+                        ITEM DELETED 
+                    <% } %> <br>
                 <% } %>
                 Order status: <%= order.orderStatus %> <br> 
             </p>
