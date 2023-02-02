@@ -15,11 +15,11 @@
                 <p class="card-text">Order made on: <%= orders[i].date %></p>
                 <p class="card-text">Total cost: <%= orders[i].price %></p>
 
-                <% if(orders[i].status == "Completed"){ %>
+                <% if(orders[i].orderStatus == "Completed"){ %>
                     <div class="alert alert-success" role="alert">
                         Order is completed.
                     </div>
-                <% } else if (orders[i].status == "Confirmed") {%>
+                <% } else if (orders[i].orderStatus == "Confirmed") {%>
                     <div class="alert alert-success" role="alert">
                         Order is confirmed.
                     </div>
