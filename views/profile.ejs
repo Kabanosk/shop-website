@@ -21,16 +21,9 @@
     <% for (var i = 0; i < orders.length; i++) { %>
         Your order from: <%= orders[i].date %> with total cost of <%= orders[i].price %> containing:  <br>
         <% for (var j = 0; j < carts[i].length; j++) { %>
-            <% if (carts !== undefined && carts[i] != null) { %> 
-                <%= carts[i].name %> 
-            <% } else { %>
-                ITEM DELETED
-            <% } %> 
-            <% if (carts !== undefined && carts[i] != null) { %>
-                <%= carts[i].price %> 
-            <% } else { %>
-                ITEM DELETED 
-            <% } %> <br>
+            <% let itemName = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].name; %>
+            <% let itemPrice = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].price; %>
+            <%= itemName %> <%= itemPrice %><br>
         <% } %>
         Has a status: <%= orders[i].orderStatus %> <br> <br>
 
