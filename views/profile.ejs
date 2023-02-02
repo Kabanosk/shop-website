@@ -18,15 +18,12 @@
     <div class="mb-3 w-50">
         <h5>Your email: <%= email %></h5>
     </div>
+    <div class="mb-3 w-50">
+        <h5>Your orders:</h5>
+    </div>
+    
     <% for (var i = 0; i < orders.length; i++) { %>
-        Your order from: <%= orders[i].date %> with total cost of <%= orders[i].price %> containing:  <br>
-        <% for (var j = 0; j < carts[i].length; j++) { %>
-            <% let itemName = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].name; %>
-            <% let itemPrice = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].price; %>
-            <%= itemName %> <%= itemPrice %><br>
-        <% } %>
-        Has a status: <%= orders[i].orderStatus %> <br> <br>
-
+        <%- include('partials/order_profile.ejs', {i: i, carts: carts, orders: orders})%>
     <% } %>
 </div>
 <form method="post" action="/users/profile/logout" class="d-flex flex-column flex-grow-1 align-items-center justify-content-center">

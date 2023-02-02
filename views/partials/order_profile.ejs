@@ -1,0 +1,35 @@
+<div class="d-flex flex-grow-1">
+    <div class="w-50 card mb-3">
+        <div class="h-100 row">
+          <div>
+            <div class="card-body">
+                <h5 class="pb-4 card-title">Order #<%= i + 1%></h5>
+
+                <% for (var j = 0; j < carts[i].length; j++) { %>
+
+                    <% let itemName = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].name; %>
+                    <% let itemPrice = (carts[i][j] == null) ? "Item Deleted" : carts[i][j].price; %>
+
+                    <p class="card-text">- <%= itemName %> - <%= itemPrice %></p>
+                <% } %>
+                <p class="card-text">Order made on: <%= orders[i].date %></p>
+                <p class="card-text">Total cost: <%= orders[i].price %></p>
+
+                <% if(orders[i].status == "Completed"){ %>
+                    <div class="alert alert-success" role="alert">
+                        Order is completed.
+                    </div>
+                <% } else if (orders[i].status == "Confirmed") {%>
+                    <div class="alert alert-success" role="alert">
+                        Order is confirmed.
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-success" role="alert">
+                        Order is open.
+                    </div>
+                <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
